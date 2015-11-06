@@ -1,0 +1,19 @@
+@font-face {
+  font-family: 'liturgisch';
+  src: local('☺'),
+        url('font/Liturgisch.ttf') format('truetype'),
+        url('font/Liturgisch.otf') format('opentype');
+}
+
+body{
+  font-family:"inconsolata";
+}
+
+h1{
+  color:#eaa;
+  letter-spacing:-.03em;
+  font-size: 4em;
+  font-weight:normal;
+  margin:0;
+  font-family: 'liturgisch','UnifrakturMaguntia', cursive;
+}
