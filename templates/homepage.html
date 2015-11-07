@@ -1,0 +1,205 @@
+{% extends 'base.html' %}
+
+{% block headscripts %}
+
+<script src="//d3js.org/d3.v3.min.js"></script>
+
+<style type="text/css">
+
+
+
+.link {
+  stroke: #888;
+}
+
+.node {
+  fill: #888;
+  stroke: #888;
+}
+
+text{
+  color:#888;
+}
+
+
+</style>
+
+{%  endblock %}
+
+{% block main %}
+
+<h1>Folkroutes</h1>
+<p>An experiment to represent a physical network as a digital presence in a galaxy</p>
+<p>a project of <a href="http://niko.io">niko.io</a> and <a href="http://great-falls.net">great falls</a></p>
+
+
+
+
+
+<viz>
+
+</viz>
+
+
+
+
+<h2>Directory</h2>
+
+<h4>Constellations</h4>
+{% for item in constellations %}
+  <li>- {{ item.name }} -</li>
+{% endfor %}
+
+<h4>Stars</h4>
+{% for item in stars %}
+  <li>- {{ item.name }} -</li>
+{% endfor %}
+
+<h3>Jetsam</h3>
+{% for item in jetsam %}
+ - {{ item.name }} -
+{% endfor %}
+
+ <h3>Floatsam</h3>
+{% for item in floatsam %}
+ - {{ item.name }} -
+ coven:
+  {% for thing in item.peers %}
+    {{ thing.name }}
+  {% endfor %}
+  <br />
+{% endfor %}
+
+
+
+=======================================
+
+<div></div>
+
+
+
+
+
+
+<script type="text/javascript">
+
+nids = [
+{"num":0,"name":"test"}
+    {% for item in floatsam %}
+        ,{
+          "num":{{item.floatsam_id}},
+          "name":"{{item.name}}",
+        }
+    {% endfor %}
+  ]
+var graph = {
+  nodes: nids,
+  links: [
+    {% for item in floatsam %}
+      {% for thing in item.peers  %}
+        {source:  {{item.floatsam_id}}, target:  {{thing.floatsam_id}}},
+      {% endfor %}
+    {% endfor %}
+
+
+  ]
+};
+
+console.log(d3.range(13));
+console.log(d3.range(13).map(Object));
+console.log(graph.nodes);
+
+var width = 960,
+    height = 500;
+
+var svg = d3.select("viz").append("svg")
+    .attr("width", width)
+    .attr("height", height);
+
+var force = d3.layout.force()
+    .size([width, height])
+    .charge(-4000)
+    .on("tick", tick)
+
+var link = svg.selectAll(".link")
+   .data(graph.links)
+ .enter().append("line")
+   .attr("class", "link");
+
+var node = svg.selectAll(".node")
+   .data(graph.nodes)
+ .enter().append("circle")
+   .attr("class", "node")
+   .attr("r", 4.5);
+
+   var gnodes = svg.selectAll('g.gnode')
+     .data(graph.nodes)
+     .enter()
+     .append('g')
+     .classed('gnode', true)
+     .on('mouseover', function(d){
+        var nodeSelection = d3.select(this).style({opacity:'0.8'});
+        nodeSelection.select("text").style({opacity:'1.0'});
+      })
+     .on('mouseout', function(d){
+        var nodeSelection = d3.select(this).style({opacity:'1.0'});
+        nodeSelection.select("text").style({opacity:'0.0'});
+      });
+
+  var node = gnodes.append("circle")
+      .attr("class", "node")
+      .attr("r", 5)
+      .style("fill", function(d) { return "#888" });
+
+  var labels = gnodes.append("text")
+      .text(function(d) { return d.name; })
+      .style('fill', 'white')
+      .style("font-size", "10px")
+      .style({opacity:'0.0'});
+
+
+  console.log(labels);
+
+
+var drawGraph = function(graph) {
+  force
+      .nodes(graph.nodes)
+      .links(graph.links)
+      .start();
+
+  var link = svg.selectAll(".link")
+      .data(graph.links)
+    .enter().append("line")
+      .attr("class", "link")
+      .style("stroke-width", function(d) { return Math.sqrt(d.value); });
+}
+
+drawGraph(graph);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function tick() {
+  link.attr("x1", function(d) { return d.source.x; })
+        .attr("y1", function(d) { return d.source.y; })
+        .attr("x2", function(d) { return d.target.x; })
+        .attr("y2", function(d) { return d.target.y; });
+
+    gnodes.attr("transform", function(d) {
+        return 'translate(' + [d.x, d.y] + ')';
+    });
+}
+
+</script>
+
+{% endblock %}

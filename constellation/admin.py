@@ -11,8 +11,28 @@ class ConstellationAdmin(admin.ModelAdmin):
   pass
 
 
-class StarAdmin(LeafletGeoAdmin):
-  pass
+class StarAdmin(UserAdmin, LeafletGeoAdmin):
+  add_form = SecondUserAddForm
+
+  list_display = ("email", "created_at", "updated_at")
+  list_filter = ("created_at","updated_at")
+  search_fields = ("email",)
+  ordering = ("created_at","email",)
+  filter_horizontal = ()
+  fieldsets = (
+    (None,{"fields":("email","password","name","story","website","coven","geom")}),
+    )
+  add_fieldsets = ((None, {
+    "fields":("email","password1","password2")
+    }), )
+
+  class Media:
+    js = (
+        '//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js',
+        '//ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js',
+    )
+    css = {
+    }
 
 admin.site.register(Star, StarAdmin)
 admin.site.register(Constellation, ConstellationAdmin)
