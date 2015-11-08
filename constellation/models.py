@@ -25,13 +25,16 @@ class Floatsam(Nameable):
   coven         = models.ManyToManyField("self")
   geom          = PointField(null = True, blank = True)
 
+  def __str__(self):
+    return self.name
+
 class Constellation(Floatsam):
-  def __unicode__(self):
+  def __str__(self):
     return self.name
 
 
 class Star(SecondUser, Floatsam):
-  def __unicode__(self):
+  def __str__(self):
     return self.name
 
 

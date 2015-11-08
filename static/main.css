@@ -5,14 +5,23 @@
         url('font/Liturgisch.otf') format('opentype');
 }
 
+html, body{
+  margin:0;
+  padding:0;
+}
+
 body{
   font-family:"inconsolata";
   background-color: #001848;
   color:#888;
+  font-size:12px;
+  background-image:url("/static/sky.jpg");
+  background-size:cover;
 }
 
-h1{
-  color:#eaa;
+h2.logo{
+  /*color:#eaa;*/
+  color:black;
   letter-spacing:-.03em;
   font-size: 4em;
   font-weight:normal;
@@ -20,6 +29,22 @@ h1{
   font-family: 'liturgisch','UnifrakturMaguntia', cursive;
 }
 
+.logo{
+  position:fixed;
+  top:15;
+  right:0;
+  z-index:20;
+}
+
 a{
   color:#aaa;
+}
+
+.mainmenu{
+  background-color:rgba(0,0,0,.1);
+  position:fixed;
+  top:0;
+  width:100%;
+  z-index:30;
+  text-align:right;
 }
