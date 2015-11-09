@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+
+
+{% block main %}
+
+
+<h1>{{ floatsam.name }}</h1>
+
+<p>{{ floatsam.story }}<p>
+
+{% for peer in floatsam.peers %}
+  <li>
+    <a href="{% url 'floatsam_detail' peer.floatsam_id %}">
+      {{ peer.name }}
+    </a>
+  </li>
+{% endfor %}
+
+<h2>constellations</h2>
+{% for peer in floatsam.constellations %}
+  <li>
+    <a href="{% url 'floatsam_detail' peer.floatsam_id %}">
+      {{ peer.name }}
+    </a>
+  </li>
+{% endfor %}
+
+
+
+{%  endblock %}

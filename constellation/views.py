@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404, render, render_to_response
 from django.http import HttpResponseRedirect, Http404
 from .models import *
+from django.contrib.contenttypes.models import ContentType
 
 def home(request):
   floatsam = Floatsam.objects.all()
@@ -8,7 +9,6 @@ def home(request):
   for sam in floatsam:
     sam.peers = sam.coven.all()
     if hasattr(sam, "constellation"):
-      print ("ffffffffffffffffffffffffffffffffffffffffff")
       sam.charge = 2100
     else:
       sam.charge = -2000
@@ -28,4 +28,12 @@ def directory(request):
   return render(request, 'directory.html', {"constellations":constellations,"stars":stars,"jetsam":jetsam,"floatsam":floatsam})
 
 
-# Create your views here.
+def floatsam_detail(request, slug):
+  floatsam = get_object_or_404(Floatsam, pk=slug)
+  floatsam.peers = floatsam.coven.all()
+  ct = ContentType.objects.get_for_model(Constellation)
+  constellations = []#Floatsam.objects.filter(content_type__model="Constellation")
+  print ("ooooooooooooo")
+  print (floatsam)
+  print (")yyyyyyy")
+  return render(request, 'constellation/floatsam_detail.html',{"floatsam":floatsam,"constellations":constellations})
