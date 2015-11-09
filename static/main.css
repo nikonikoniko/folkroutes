@@ -31,8 +31,8 @@ h2.logo{
 
 .logo{
   position:fixed;
-  top:15;
-  right:0;
+  bottom:10px;
+  right:10px;
   z-index:20;
 }
 
@@ -43,8 +43,9 @@ a{
 .mainmenu{
   background-color:rgba(0,0,0,.1);
   position:fixed;
-  top:0;
+  bottom:0;
   width:100%;
   z-index:30;
   text-align:right;
+  color: black !important;
 }

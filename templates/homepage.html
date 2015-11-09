@@ -9,7 +9,7 @@
 
 
 .link {
-  stroke: #999;
+  stroke: #fff;
 }
 
 .node {
@@ -72,6 +72,7 @@ nids = [
         ,{
           "num":{{item.floatsam_id}},
           "name":"{{item.name}}",
+          "url":"/floatsam/{{item.floatsam_id}}",
           "charge":{{item.charge}},
         }
     {% endfor %}
@@ -96,12 +97,26 @@ console.log(graph.nodes);
 var width = document.getElementById("viz").offsetWidth,
     height = document.getElementById("viz").offsetHeight;
 
+
+
+ var t0 = Date.now();
+var state_rotate = 90 + t0 * 1/200;
+var state_translate = [0,0]
+var state_scale = 1
+
     console.log(width);
     console.log(height);
 
-var svg = d3.select("viz").append("svg")
+var svg = d3.select("viz").append("svg:svg")
     .attr("width", width)
-    .attr("height", height);
+    .attr("height", height)
+    .call(d3.behavior.zoom().scaleExtent([1, 10]).on("zoom", redraw))
+    .attr("pointer-events", "all")
+  .append('svg:g')
+    .call(d3.behavior.zoom().on("zoom", redraw))
+  .append('svg:g');;
+
+
 
 var force = d3.layout.force()
     .size([width, height])
@@ -131,7 +146,7 @@ var force = d3.layout.force()
       })
      .on('mouseout', function(d){
         var nodeSelection = d3.select(this).style({opacity:'1.0'});
-        nodeSelection.select("text").style({opacity:'0.0'});
+        nodeSelection.select("text").style({opacity:'0.1'});
       });
 
 
@@ -140,9 +155,10 @@ var force = d3.layout.force()
       .enter()
       .append("line")
       .attr("class", "link")
-      .style("stroke-width", function(d) { return Math.sqrt(d.value); });
+      .style("stroke-width", .2);
 
-  var node = gnodes.append("circle")
+
+    var node = gnodes.append("circle")
       .attr("class", "node")
       .attr("r", 1.5)
       .style("fill", function(d) { return "#fff" });
@@ -150,8 +166,11 @@ var force = d3.layout.force()
   var labels = gnodes.append("text")
       .text(function(d) { return d.name; })
       .style('fill', 'black')
-      .style("font-size", "12px")
-      .style({opacity:'0.7'});
+      .style("font-size", "8px")
+      .style({opacity:'0.1'})
+      .on("click",function(d){
+        window.location = d.url})
+      .style("cursor","pointer");
 
 
 var drawGraph = function(graph) {
@@ -174,47 +193,18 @@ drawGraph(graph);
 
 
 
-var zoom = d3.behavior.zoom().scaleExtent([.1,7])
-
-var nominal_base_node_size = 8;
-var nominal_text_size = 10;
-var max_text_size = 24;
-var nominal_stroke = 1.5;
-var max_stroke = 4.5;
-var max_base_node_size = 36;
-var text_center=true;
-
-zoom.on("zoom", function() {
-
-    var stroke = nominal_stroke;
-    if (nominal_stroke*zoom.scale()>max_stroke) stroke = max_stroke/zoom.scale();
-    link.style("stroke-width",stroke);
-    //circle.style("stroke-width",stroke);
-
-  var base_radius = nominal_base_node_size;
-    if (nominal_base_node_size*zoom.scale()>max_base_node_size) base_radius = max_base_node_size/zoom.scale();
-        //circle.attr("d", d3.svg.symbol()
-        //.size(function(d) { return Math.PI*Math.pow(size(d.size)*base_radius/nominal_base_node_size||base_radius,2); })
-        //.type(function(d) { return d.type; }))
-
-  //circle.attr("r", function(d) { return (size(d.size)*base_radius/nominal_base_node_size||base_radius); })
-  if (!text_center) text.attr("dx", function(d) { return (size(d.size)*base_radius/nominal_base_node_size||base_radius); });
-
-  var text_size = nominal_text_size;
-    if (nominal_text_size*zoom.scale()>max_text_size) text_size = max_text_size/zoom.scale();
-    labels.style("font-size",text_size + "px");
-
-    console.log(d3.event.translate);
-
-    node.attr("transform", "translate(" + [d3.event.translate[0],d3.event.translate[1]] + ")scale(" + (-1*d3.event.scale) + ")");
-    link.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
-    labels.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
-  });
 
 
-svg.call(zoom);
+function redraw() {
 
-
+  state_translate = d3.event.translate;
+  state_scale = d3.event.scale;
+  svg.attr("transform",
+      "translate(" + d3.event.translate + ")"
+      + " scale(" + d3.event.scale + ")"
+      + " rotate(" + state_rotate + "," + width/2 +"," + height/2 +")"
+      );
+}
 
 
 
@@ -238,6 +228,31 @@ function tick() {
 
     console.log("sup");
 }
+
+
+
+
+
+
+
+
+
+
+
+  d3.timer(function() {
+    console.log("hhiieeerr");
+    var delta = (Date.now() - t0);
+
+    console.log("rotate(" + state_rotate + "," + width/2 +"," + height/2 +")"
+    + " translate(" + state_translate + ")"
+      + " scale(" + state_scale + ")");
+    state_rotate = 90 + delta * 1/200;
+
+    svg.attr("transform", "rotate(" + state_rotate + "," + width/2 +"," + height/2 +")"
+    + " translate(" + state_translate + ")"
+      + " scale(" + state_scale + ")"
+    );
+  });
 
 </script>
 

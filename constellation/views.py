@@ -9,7 +9,7 @@ def home(request):
   for sam in floatsam:
     sam.peers = sam.coven.all()
     if hasattr(sam, "constellation"):
-      sam.charge = 2100
+      sam.charge = -300
     else:
       sam.charge = -2000
 
