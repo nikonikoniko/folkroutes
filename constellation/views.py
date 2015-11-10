@@ -1,7 +1,11 @@
 from django.shortcuts import get_object_or_404, render, render_to_response
-from django.http import HttpResponseRedirect, Http404
+from django.http import HttpResponseRedirect, Http404, HttpResponse
 from .models import *
 from django.contrib.contenttypes.models import ContentType
+import json
+from django.core.serializers.json import DjangoJSONEncoder
+from django.forms.models import model_to_dict
+from django.http import JsonResponse
 
 def home(request):
   floatsam = Floatsam.objects.all()
@@ -37,3 +41,7 @@ def floatsam_detail(request, slug):
   print (floatsam)
   print (")yyyyyyy")
   return render(request, 'constellation/floatsam_detail.html',{"floatsam":floatsam,"constellations":constellations})
+
+def json_floatsam_detail(request, slug):
+  floatsam = model_to_dict(get_object_or_404(Floatsam, pk=slug))
+  return JsonResponse(floatsam)

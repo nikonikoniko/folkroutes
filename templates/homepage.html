@@ -3,6 +3,8 @@
 {% block headscripts %}
 
 <script src="/static/components/d3.js"></script>
+<script src="/static/components/jquery.js"></script>
+
 
 <style type="text/css">
 
@@ -82,13 +84,14 @@ viz{
 <div id="infomain">
 
   <div id="infomain_inner">
-    <h1>Floatsam Name</h1>
+    <h1 id="infotitle">Floatsam Name</h1>
   </div>
 
-  <div id="floatsam_image" style="background-image:url(http://i.ytimg.com/vi/6LhIErL_MY8/0.jpg);">
+  <div id="floatsam_image" style="background-image:url(/static/smok.jpg);">
   </div>
 
      <div id="infomain_inner">
+      <div id="infostory">
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ultricies felis augue, et aliquam nunc bibendum id. Vivamus a libero vel ipsum laoreet ullamcorper vitae at risus. Nam libero dui, placerat vitae nisi eu, porta mollis augue. Nulla vulputate dolor justo, vel eleifend ligula fringilla vel. Quisque tempor elementum libero non tristique. Duis pellentesque sodales odio, vel faucibus orci posuere ut. Quisque non auctor odio. Sed ut posuere leo. Nullam nec felis lobortis, sollicitudin est quis, sagittis lectus.
 
 Cras id varius lacus. Suspendisse elit quam, tempus quis blandit gravida, aliquam nec nisl. Nulla pellentesque ultrices posuere. Etiam laoreet egestas fringilla. Phasellus ut mi congue sem porttitor efficitur ac sed ligula. Cras ac venenatis diam. Donec vestibulum lectus vel mollis facilisis. Aliquam dictum mi vel mattis efficitur. Vestibulum laoreet eleifend leo, at efficitur erat dignissim id.
@@ -98,6 +101,7 @@ Phasellus eget malesuada elit, sit amet accumsan lectus. Maecenas gravida dapibu
 Sed rutrum vitae metus tristique mattis. Curabitur nunc metus, convallis nec viverra eu, dapibus eget turpis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Mauris facilisis lectus vel egestas tristique. Ut enim dolor, egestas id ligula vel, mattis pretium nunc. Nunc rutrum, tellus eget malesuada blandit, sem tortor commodo mauris, mollis ultrices orci sapien non est. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
 Etiam et imperdiet ipsum. Phasellus semper dolor metus, ac blandit sapien fermentum non. Donec arcu purus, malesuada quis lectus et, luctus maximus massa. Aenean nisi augue, imperdiet ac lobortis malesuada, blandit non mauris. Nam sit amet mattis nisi, volutpat ultricies metus. Nullam varius sit amet mauris euismod molestie. Donec pretium, ex ut pellentesque euismod, mi sem aliquet turpis, nec imperdiet sapien ante non libero. Fusce id posuere ante. Interdum et malesuada fames ac ante ipsum primis in faucibus. Maecenas rhoncus pulvinar lacinia. Cras ultrices tempor magna, nec maximus lacus consequat ut. Phasellus ut lorem quam. Donec mattis egestas sagittis.</p>
+      </div>
       </div>
 
 </div>
@@ -121,7 +125,7 @@ nids = [
         ,{
           "num":{{item.floatsam_id}},
           "name":"{{item.name}}",
-          "url":"/floatsam/{{item.floatsam_id}}",
+          "url":"/floatsam/json/{{item.floatsam_id}}",
           "charge":{{item.charge}},
         }
     {% endfor %}
@@ -146,6 +150,9 @@ console.log(graph.nodes);
 var width = document.getElementById("viz").offsetWidth,
     height = document.getElementById("viz").offsetHeight;
 
+var spincenter_x = width/2;
+var spincenter_y = height/2;
+
 
 
  var t0 = Date.now();
@@ -156,13 +163,23 @@ var state_scale = 1
     console.log(width);
     console.log(height);
 
+
+
+var zoomListener = d3.behavior.zoom()
+  .scaleExtent([1, 10])
+  .on("zoom", redraw);
+
+
 var momsvg = d3.select("viz").append("svg:svg")
     .attr("width", width)
     .attr("height", height)
-    .call(d3.behavior.zoom().scaleExtent([1, 10]).on("zoom", redraw))
+    .call(zoomListener)
     .attr("pointer-events", "all")
   .append('svg:g')
   .attr("id","mom");
+
+
+
 
 var svg = momsvg.append("g")
     .attr("width", width)
@@ -220,7 +237,26 @@ var force = d3.layout.force()
       .style("font-size", "6px")
       .style({opacity:'0.1'})
       .on("click",function(d){
-        window.location = d.url})
+        ajax_link_clicked(d.url);
+        console.log(d);
+        console.log(width);
+        console.log(height);
+        scale = 2.9;
+        spincenter_x = d.x;
+        spincenter_y = d.y;
+        console.log("eee");
+        tx= width/2+ -scale*d.x;
+        ty= height/2+ -scale*d.y;
+
+        // momsvg.attr("transform","scale(" + scale + "), translate(" + [width/scale/2-d.x,height/scale/2-d.y] + ") "
+        //   ).transition();
+
+      zoomListener.scale(scale).translate([tx,ty]);
+
+      // activate the zoom event
+      // pass in the transition with duration 500ms
+      zoomListener.event(momsvg.transition().duration(500));
+      })
       .style("cursor","pointer");
 
 
@@ -250,10 +286,11 @@ function redraw() {
 
   console.log("redraw");
 
+  console.log(d3.event.scale);
   state_translate = d3.event.translate;
   state_scale = d3.event.scale;
-  momsvg.attr("transform", "translate(" + d3.event.translate + ")"
-      + " scale(" + d3.event.scale + ")"
+  momsvg.attr("transform", "translate(" + state_translate + ")"
+      + " scale(" + state_scale + ")"
       );
   //svg.attr("transform","rotate(" + state_rotate + "," + width/2 +"," + height/2 +")");
 }
@@ -296,12 +333,50 @@ function tick() {
 
     state_rotate = 0 + delta * 1/900;
 
-    svg.attr("transform", "rotate(" + state_rotate + "," + width/2 +"," + height/2 +")");
+    svg.attr("transform", "rotate(" + state_rotate + "," + spincenter_x +"," + spincenter_y +")");
     labels.attr("transform", "rotate(" + -1 * state_rotate +")");
 
     //momsvg.attr("transform", " translate(" + state_translate + ")"
       //+ " scale(" + state_scale + ")")
   });
+
+
+
+
+
+
+
+
+
+
+
+
+  $("#infomain").hide();
+
+
+
+  function ajax_link_clicked(url){
+    console.log("clocle" + url);
+
+    $.getJSON(url, function(data) {
+      console.log(data);
+      console.log(data.name);
+      $("#infotitle").html(data.name);
+      $("#infostory").html(data.story);
+      $("#infomain").show();
+    });
+
+
+  }
+
+
+
+
+
+
+
+
+
 
 </script>
 
