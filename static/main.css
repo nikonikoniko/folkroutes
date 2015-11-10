@@ -5,13 +5,19 @@
         url('font/Liturgisch.otf') format('opentype');
 }
 
+@font-face {
+  font-family: 'iosevka';
+  src: local('☺'),
+        url('font/iosevka-regular.ttf') format('truetype'),
+}
+
 html, body{
   margin:0;
   padding:0;
 }
 
 body{
-  font-family:"inconsolata";
+  font-family:"iosevka";
   background-color: #001848;
   color:#888;
   font-size:12px;
@@ -29,6 +35,13 @@ h2.logo{
   font-family: 'liturgisch','UnifrakturMaguntia', cursive;
 }
 
+h1,h2,h3,h4{
+    font-family: 'liturgisch','UnifrakturMaguntia', cursive;
+      font-weight:normal;
+
+
+}
+
 .logo{
   position:fixed;
   bottom:10px;
@@ -37,11 +50,10 @@ h2.logo{
 }
 
 a{
-  color:#aaa;
+  color:#000;
 }
 
 .mainmenu{
-  background-color:rgba(0,0,0,.1);
   position:fixed;
   bottom:0;
   width:100%;
