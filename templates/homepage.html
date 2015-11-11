@@ -255,7 +255,7 @@ var force = d3.layout.force()
 
       // activate the zoom event
       // pass in the transition with duration 500ms
-      zoomListener.event(momsvg.transition().duration(500));
+      zoomListener.event(momsvg.transition().duration(30));
       })
       .style("cursor","pointer");
 
@@ -292,6 +292,7 @@ function redraw() {
   momsvg.attr("transform", "translate(" + state_translate + ")"
       + " scale(" + state_scale + ")"
       );
+
   //svg.attr("transform","rotate(" + state_rotate + "," + width/2 +"," + height/2 +")");
 }
 
@@ -334,7 +335,10 @@ function tick() {
     state_rotate = 0 + delta * 1/900;
 
     svg.attr("transform", "rotate(" + state_rotate + "," + spincenter_x +"," + spincenter_y +")");
+    // zoomListener.rotate([state_rotate,spincenter_x,spincenter_y]).transition();
     labels.attr("transform", "rotate(" + -1 * state_rotate +")");
+
+
 
     //momsvg.attr("transform", " translate(" + state_translate + ")"
       //+ " scale(" + state_scale + ")")
