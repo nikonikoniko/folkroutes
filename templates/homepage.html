@@ -61,7 +61,10 @@ viz{
   width:100%;
 }
 
-
+#mom{
+  width:100% !important;
+  height:100% !important;
+}
 
 </style>
 
@@ -119,6 +122,25 @@ Etiam et imperdiet ipsum. Phasellus semper dolor metus, ac blandit sapien fermen
 
 <script type="text/javascript">
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 nids = [
 {"num":0,"name":"Folkroutes","charge":1000}
     {% for item in floatsam %}
@@ -143,9 +165,6 @@ var graph = {
   ]
 };
 
-console.log(d3.range(13));
-console.log(d3.range(13).map(Object));
-console.log(graph.nodes);
 
 var width = document.getElementById("viz").offsetWidth,
     height = document.getElementById("viz").offsetHeight;
@@ -155,13 +174,11 @@ var spincenter_y = height/2;
 
 
 
- var t0 = Date.now();
+var t0 = Date.now();
 var state_rotate = 90 + t0 * 1/200;
 var state_translate = [0,0]
 var state_scale = 1
 
-    console.log(width);
-    console.log(height);
 
 
 
@@ -176,6 +193,8 @@ var momsvg = d3.select("viz").append("svg:svg")
     .call(zoomListener)
     .attr("pointer-events", "all")
   .append('svg:g')
+  .attr("width", width)
+    .attr("height", height)
   .attr("id","mom");
 
 
@@ -238,24 +257,22 @@ var force = d3.layout.force()
       .style({opacity:'0.1'})
       .on("click",function(d){
         ajax_link_clicked(d.url);
-        console.log(d);
-        console.log(width);
-        console.log(height);
-        scale = 2.9;
-        spincenter_x = d.x;
-        spincenter_y = d.y;
-        console.log("eee");
+
+        scale = 2;
+
+
         tx= width/2+ -scale*d.x;
         ty= height/2+ -scale*d.y;
 
-        // momsvg.attr("transform","scale(" + scale + "), translate(" + [width/scale/2-d.x,height/scale/2-d.y] + ") "
-        //   ).transition();
+
+        spincenter_x = d.x;
+        spincenter_y = d.y;
+
 
       zoomListener.scale(scale).translate([tx,ty]);
 
-      // activate the zoom event
-      // pass in the transition with duration 500ms
-      zoomListener.event(momsvg.transition().duration(30));
+      var T = momsvg.transition().duration(20)
+      zoomListener.event(T);
       })
       .style("cursor","pointer");
 
@@ -268,6 +285,9 @@ var drawGraph = function(graph) {
       .nodes(graph.nodes)
       .links(graph.links)
       .start();
+
+
+
 
 }
 
@@ -284,16 +304,13 @@ drawGraph(graph);
 
 function redraw() {
 
-  console.log("redraw");
 
-  console.log(d3.event.scale);
   state_translate = d3.event.translate;
   state_scale = d3.event.scale;
   momsvg.attr("transform", "translate(" + state_translate + ")"
       + " scale(" + state_scale + ")"
       );
 
-  //svg.attr("transform","rotate(" + state_rotate + "," + width/2 +"," + height/2 +")");
 }
 
 
