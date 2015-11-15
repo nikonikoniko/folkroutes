@@ -37,6 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'stdimage',
     'seconduser',
     'leaflet',
     'constellation',
@@ -113,3 +114,7 @@ STATICFILES_DIRS = (
 AUTHENTICATION_BACKENDS = [
   'django.contrib.auth.backends.ModelBackend',
   'seconduser.backends.SecondUserAuth', ]
+
+
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_URL = "media/"

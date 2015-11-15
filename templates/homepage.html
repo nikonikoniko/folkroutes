@@ -86,6 +86,10 @@ viz{
 
 <div id="infomain">
 
+  <div id="floatsam_id">
+  id
+  </div>
+
   <div id="infomain_inner">
     <h1 id="infotitle">Floatsam Name</h1>
   </div>
@@ -382,9 +386,11 @@ function tick() {
     $.getJSON(url, function(data) {
       console.log(data);
       console.log(data.name);
+      $("#floatsam_id").html(data.floatsam_id);
       $("#infotitle").html(data.name);
       $("#infostory").html(data.story);
       $("#infomain").show();
+      $("#floatsam_image").css("background-image","url(" + data.image + ")");
     });
 
 

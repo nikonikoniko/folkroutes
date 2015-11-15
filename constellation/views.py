@@ -43,5 +43,6 @@ def floatsam_detail(request, slug):
   return render(request, 'constellation/floatsam_detail.html',{"floatsam":floatsam,"constellations":constellations})
 
 def json_floatsam_detail(request, slug):
-  floatsam = model_to_dict(get_object_or_404(Floatsam, pk=slug))
-  return JsonResponse(floatsam)
+  floatsam = get_object_or_404(Floatsam, pk=slug)
+  floatsamjson = floatsam.json
+  return JsonResponse(floatsamjson)

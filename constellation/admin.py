@@ -14,7 +14,7 @@ class ConstellationAdmin(admin.ModelAdmin):
 class StarAdmin(UserAdmin, LeafletGeoAdmin):
   add_form = SecondUserAddForm
 
-  list_display = ("email", "created_at", "updated_at")
+  list_display = ("name", "email", "created_at", "updated_at")
   list_filter = ("created_at","updated_at")
   search_fields = ("email",)
   ordering = ("created_at","email",)

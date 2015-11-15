@@ -4,7 +4,11 @@ from django.views.generic import TemplateView
 
 from constellation.views import *
 
+from folkroutes import settings
+
 urlpatterns = [
+    url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {
+        'document_root': settings.MEDIA_ROOT}),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/', include('seconduser.urls')),
     url(r'^floatsam/', include('constellation.urls')),
