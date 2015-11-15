@@ -2,6 +2,8 @@ from django.db import models
 from seconduser.models import SecondUser
 from djgeojson.fields import PointField, PolygonField
 from stdimage.models import StdImageField
+from autoslug import AutoSlugField
+
 
 
 
@@ -11,6 +13,7 @@ class Nameable(models.Model):
   name      = models.CharField(max_length=255)
   website   = models.CharField(max_length=255, null = True, blank = True)
   story     = models.TextField(null = True, blank = True)
+  slug      = AutoSlugField(populate_from='name', unique=True, always_update=True)
 
   class Meta:
     abstract = True
@@ -43,11 +46,18 @@ class Imageable(models.Model):
 # jetsam is a production of one of these nodes
 class Jetsam(Nameable):
   maker         = models.ForeignKey("Floatsam")
+  upload        = models.FileField(upload_to="jetsam", null=True, blank=True)
+  TYPES = (
+    (1, "Writing"),
+    (2, "Audio"),
+    (3, "Image"),
+    (4, "Document"))
+  type = models.IntegerField(choices=TYPES, default=1)
 
 # floatsam is a node on the network, a connecting point (project) or a human
 class Floatsam(Nameable, Imageable):
   floatsam_id   = models.AutoField(primary_key=True)
-  coven         = models.ManyToManyField("self")
+  coven         = models.ManyToManyField("self", blank=True)
   geom          = PointField(null = True, blank = True)
 
   @property
@@ -59,6 +69,7 @@ class Floatsam(Nameable, Imageable):
         "story":self.story,
         "website":self.website,
         "image":self.imageurl,
+        "slug":self.slug,
       }
 
 

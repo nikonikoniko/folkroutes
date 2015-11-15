@@ -11,6 +11,9 @@ class ConstellationAdmin(admin.ModelAdmin):
   pass
 
 
+class JetsamAdmin(admin.ModelAdmin):
+  pass
+
 class StarAdmin(UserAdmin, LeafletGeoAdmin):
   add_form = SecondUserAddForm
 
@@ -20,7 +23,7 @@ class StarAdmin(UserAdmin, LeafletGeoAdmin):
   ordering = ("created_at","email",)
   filter_horizontal = ()
   fieldsets = (
-    (None,{"fields":("email","password","name","story","website","coven","geom")}),
+    (None,{"fields":("email","password","name","story","website","coven","geom","vanity_image")}),
     )
   add_fieldsets = ((None, {
     "fields":("email","password1","password2")
@@ -36,3 +39,4 @@ class StarAdmin(UserAdmin, LeafletGeoAdmin):
 
 admin.site.register(Star, StarAdmin)
 admin.site.register(Constellation, ConstellationAdmin)
+admin.site.register(Jetsam, JetsamAdmin)

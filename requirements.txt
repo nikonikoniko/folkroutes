@@ -3,3 +3,4 @@ django-geojson [field]==2.8.1
 django-leaflet
 pillow
 django-stdimage
+django-autoslug

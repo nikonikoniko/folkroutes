@@ -61,3 +61,65 @@ a{
   text-align:right;
   color: black !important;
 }
+
+
+
+
+/* homepage */
+
+
+.link {
+  stroke: #fff;
+}
+
+.node {
+  fill: #fff;
+  stroke: #fff;
+}
+
+text{
+  color:#888;
+}
+html,body{
+  height:100%;
+}
+
+viz{
+  position:fixed;
+  width:100%;
+  height:100%;
+  top:0;
+  z-index:1;
+}
+
+
+#infomain{
+  position:fixed;
+  background-color:white;
+  height:100%;
+  width:30em;
+  left:0;
+  top:0;
+  z-index:999999;
+  overflow-y:scroll;
+      box-shadow: inset 0 -10px 10px -10px #000000;
+}
+
+#infomain::-webkit-scrollbar {
+    display: none;
+}
+
+#infomain_inner{
+  padding:2em;
+}
+
+#floatsam_image{
+  background-size: cover;
+  height:300px;
+  width:100%;
+}
+
+#mom{
+  width:100% !important;
+  height:100% !important;
+}

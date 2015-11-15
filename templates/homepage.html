@@ -4,78 +4,11 @@
 
 <script src="/static/components/d3.js"></script>
 <script src="/static/components/jquery.js"></script>
-
-
-<style type="text/css">
-
-
-
-.link {
-  stroke: #fff;
-}
-
-.node {
-  fill: #fff;
-  stroke: #fff;
-}
-
-text{
-  color:#888;
-}
-html,body{
-  height:100%;
-}
-
-viz{
-  position:fixed;
-  width:100%;
-  height:100%;
-  top:0;
-  z-index:1;
-}
-
-
-#infomain{
-  position:fixed;
-  background-color:white;
-  height:100%;
-  width:30em;
-  left:0;
-  top:0;
-  z-index:999999;
-  overflow-y:scroll;
-      box-shadow: inset 0 -10px 10px -10px #000000;
-}
-
-#infomain::-webkit-scrollbar {
-    display: none;
-}
-
-#infomain_inner{
-  padding:2em;
-}
-
-#floatsam_image{
-  background-size: cover;
-  height:300px;
-  width:100%;
-}
-
-#mom{
-  width:100% !important;
-  height:100% !important;
-}
-
-</style>
+<script src="/static/components/underscore.js"></script>
 
 {%  endblock %}
 
 {% block main %}
-
-
-
-
-
 
 
 <viz id="viz">
@@ -84,40 +17,31 @@ viz{
 
 
 
-<div id="infomain">
 
+<script type="foo/bar" id='infotemplate'>
   <div id="floatsam_id">
-  id
+    <%= floatsam_id %>
+    <%= slug %>
   </div>
 
   <div id="infomain_inner">
-    <h1 id="infotitle">Floatsam Name</h1>
+    <h1 id="infotitle"><%= name %></h1>
   </div>
 
-  <div id="floatsam_image" style="background-image:url(/static/smok.jpg);">
+  <div id="floatsam_image" style="background-image:url(<%= image %>);">
   </div>
 
-     <div id="infomain_inner">
-      <div id="infostory">
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ultricies felis augue, et aliquam nunc bibendum id. Vivamus a libero vel ipsum laoreet ullamcorper vitae at risus. Nam libero dui, placerat vitae nisi eu, porta mollis augue. Nulla vulputate dolor justo, vel eleifend ligula fringilla vel. Quisque tempor elementum libero non tristique. Duis pellentesque sodales odio, vel faucibus orci posuere ut. Quisque non auctor odio. Sed ut posuere leo. Nullam nec felis lobortis, sollicitudin est quis, sagittis lectus.
+   <div id="infomain_inner">
+    <div id="infostory">
+     <%= story %>
+    </div>
+  </div>
+</script>
 
-Cras id varius lacus. Suspendisse elit quam, tempus quis blandit gravida, aliquam nec nisl. Nulla pellentesque ultrices posuere. Etiam laoreet egestas fringilla. Phasellus ut mi congue sem porttitor efficitur ac sed ligula. Cras ac venenatis diam. Donec vestibulum lectus vel mollis facilisis. Aliquam dictum mi vel mattis efficitur. Vestibulum laoreet eleifend leo, at efficitur erat dignissim id.
 
-Phasellus eget malesuada elit, sit amet accumsan lectus. Maecenas gravida dapibus ex ac tincidunt. Donec et dictum turpis, ac faucibus erat. Etiam orci tortor, pharetra vitae sem sed, cursus pharetra libero. Aenean vitae pulvinar felis. Praesent id magna consectetur, tincidunt diam gravida, venenatis mauris. Quisque mollis vel nisi ultrices fringilla. In ornare posuere augue eget tempor. Sed mollis velit purus. Mauris pellentesque enim feugiat leo viverra pulvinar. Nulla non turpis vel magna convallis tempor. Sed sapien nulla, egestas eget justo non, laoreet semper risus. Donec et suscipit lacus.
 
-Sed rutrum vitae metus tristique mattis. Curabitur nunc metus, convallis nec viverra eu, dapibus eget turpis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Mauris facilisis lectus vel egestas tristique. Ut enim dolor, egestas id ligula vel, mattis pretium nunc. Nunc rutrum, tellus eget malesuada blandit, sem tortor commodo mauris, mollis ultrices orci sapien non est. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-
-Etiam et imperdiet ipsum. Phasellus semper dolor metus, ac blandit sapien fermentum non. Donec arcu purus, malesuada quis lectus et, luctus maximus massa. Aenean nisi augue, imperdiet ac lobortis malesuada, blandit non mauris. Nam sit amet mattis nisi, volutpat ultricies metus. Nullam varius sit amet mauris euismod molestie. Donec pretium, ex ut pellentesque euismod, mi sem aliquet turpis, nec imperdiet sapien ante non libero. Fusce id posuere ante. Interdum et malesuada fames ac ante ipsum primis in faucibus. Maecenas rhoncus pulvinar lacinia. Cras ultrices tempor magna, nec maximus lacus consequat ut. Phasellus ut lorem quam. Donec mattis egestas sagittis.</p>
-      </div>
-      </div>
-
+<div id="infomain">
 </div>
-<!--
-
-
-
-=======================================
--->
 
 
 
@@ -128,46 +52,6 @@ Etiam et imperdiet ipsum. Phasellus semper dolor metus, ac blandit sapien fermen
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-nids = [
-{"num":0,"name":"Folkroutes","charge":1000}
-    {% for item in floatsam %}
-        ,{
-          "num":{{item.floatsam_id}},
-          "name":"{{item.name}}",
-          "url":"/floatsam/json/{{item.floatsam_id}}",
-          "charge":{{item.charge}},
-        }
-    {% endfor %}
-  ]
-var graph = {
-  nodes: nids,
-  links: [
-    {% for item in floatsam %}
-      {% for thing in item.peers  %}
-        {source:  {{item.floatsam_id}}, target:  {{thing.floatsam_id}}},
-      {% endfor %}
-    {% endfor %}
-
-
-  ]
-};
 
 
 var width = document.getElementById("viz").offsetWidth,
@@ -186,184 +70,190 @@ var state_scale = 1
 
 
 
-var zoomListener = d3.behavior.zoom()
-  .scaleExtent([1, 10])
-  .on("zoom", redraw);
-
-
-var momsvg = d3.select("viz").append("svg:svg")
-    .attr("width", width)
-    .attr("height", height)
-    .call(zoomListener)
-    .attr("pointer-events", "all")
-  .append('svg:g')
-  .attr("width", width)
-    .attr("height", height)
-  .attr("id","mom");
-
-
-
-
-var svg = momsvg.append("g")
-    .attr("width", width)
-    .attr("height", height)
-    .attr("id","svg");
-
-var force = d3.layout.force()
-    .size([width, height])
-    .friction(.9)
-    .linkStrength(0.3)
-    .charge(function(d){
-      console.log(d.charge);
-      return d.charge;
-      })
-    .gravity(.3)
-    .theta(0.8)
-    .alpha(0.1)
-    .on("tick", tick);
-
-
-
-
-
-  var gnodes = svg.selectAll('g.gnode')
-     .data(graph.nodes)
-     .enter()
-     .append('g')
-     .classed('gnode', true)
-     .on('mouseover', function(d){
-        var nodeSelection = d3.select(this).style({opacity:'0.8'});
-        nodeSelection.select("text").style({opacity:'1.0'});
-      })
-     .on('mouseout', function(d){
-        var nodeSelection = d3.select(this).style({opacity:'1.0'});
-        nodeSelection.select("text").style({opacity:'0.1'});
-      });
-
-
-  var link = svg.selectAll(".link")
-      .data(graph.links)
-      .enter()
-      .append("line")
-      .attr("class", "link")
-      .style("stroke-width", .2);
-
-
-    var node = gnodes.append("circle")
-      .attr("class", "node")
-      .attr("r", 1.5)
-      .style("fill", function(d) { return "#fff" });
-
-  var labels = gnodes.append("text")
-      .text(function(d) { return d.name; })
-      .style('fill', 'white')
-      .style("font-size", "6px")
-      .style({opacity:'0.1'})
-      .on("click",function(d){
-        ajax_link_clicked(d.url);
-
-        scale = 2;
-
-
-        tx= width/2+ -scale*d.x;
-        ty= height/2+ -scale*d.y;
-
-
-        spincenter_x = d.x;
-        spincenter_y = d.y;
-
-
-      zoomListener.scale(scale).translate([tx,ty]);
-
-      var T = momsvg.transition().duration(20)
-      zoomListener.event(T);
-      })
-      .style("cursor","pointer");
-
-
 var drawGraph = function(graph) {
 
 
 
-  force
-      .nodes(graph.nodes)
-      .links(graph.links)
-      .start();
+
+    var zoomListener = d3.behavior.zoom()
+      .scaleExtent([1, 10])
+      .on("zoom", redraw);
 
 
+    var momsvg = d3.select("viz").append("svg:svg")
+        .attr("width", width)
+        .attr("height", height)
+        .call(zoomListener)
+        .attr("pointer-events", "all")
+      .append('svg:g')
+      .attr("width", width)
+        .attr("height", height)
+      .attr("id","mom");
+
+
+
+
+    var svg = momsvg.append("g")
+        .attr("width", width)
+        .attr("height", height)
+        .attr("id","svg");
+
+    var force = d3.layout.force()
+        .size([width, height])
+        .friction(.9)
+        .linkStrength(0.3)
+        .charge(function(d){
+          console.log(d.charge);
+          return d.charge;
+          })
+        .gravity(.3)
+        .theta(0.8)
+        .alpha(0.1)
+        .on("tick", tick);
+
+
+
+
+
+      var gnodes = svg.selectAll('g.gnode')
+         .data(graph.nodes)
+         .enter()
+         .append('g')
+         .classed('gnode', true)
+         .on('mouseover', function(d){
+            var nodeSelection = d3.select(this).style({opacity:'0.8'});
+            nodeSelection.select("text").style({opacity:'1.0'});
+          })
+         .on('mouseout', function(d){
+            var nodeSelection = d3.select(this).style({opacity:'1.0'});
+            nodeSelection.select("text").style({opacity:'0.1'});
+          });
+
+
+      var link = svg.selectAll(".link")
+          .data(graph.links)
+          .enter()
+          .append("line")
+          .attr("class", "link")
+          .style("stroke-width", .2);
+
+
+        var node = gnodes.append("circle")
+          .attr("class", "node")
+          .attr("r", 1.5)
+          .style("fill", function(d) { return "#fff" });
+
+      var labels = gnodes.append("text")
+          .text(function(d) { return d.name; })
+          .style('fill', 'white')
+          .style("font-size", "6px")
+          .style({opacity:'0.1'})
+          .on("click",function(d){
+            ajax_link_clicked(d.url);
+
+            scale = 2;
+
+
+            tx= width/2+ -scale*d.x;
+            ty= height/2+ -scale*d.y;
+
+
+            spincenter_x = d.x;
+            spincenter_y = d.y;
+
+
+          zoomListener.scale(scale).translate([tx,ty]);
+
+          var T = momsvg.transition().duration(20)
+          zoomListener.event(T);
+          })
+          .style("cursor","pointer");
+
+      force
+          .nodes(graph.nodes)
+          .links(graph.links)
+          .start();
+
+
+
+
+
+
+      function redraw() {
+
+
+        state_translate = d3.event.translate;
+        state_scale = d3.event.scale;
+        momsvg.attr("transform", "translate(" + state_translate + ")"
+            + " scale(" + state_scale + ")"
+            );
+
+      }
+
+
+
+
+
+
+
+
+
+
+
+      function tick() {
+        link.attr("x1", function(d) { return d.source.x; })
+              .attr("y1", function(d) { return d.source.y; })
+              .attr("x2", function(d) { return d.target.x; })
+              .attr("y2", function(d) { return d.target.y; });
+
+          gnodes.attr("transform", function(d) {
+              return 'translate(' + [d.x, d.y] + ')';
+          });
+
+          console.log("sup");
+      }
+
+
+
+        d3.timer(function() {
+          var delta = (Date.now() - t0);
+
+          state_rotate = 0 + delta * 1/900;
+
+          svg.attr("transform", "rotate(" + state_rotate + "," + spincenter_x +"," + spincenter_y +")");
+          // zoomListener.rotate([state_rotate,spincenter_x,spincenter_y]).transition();
+          labels.attr("transform", "rotate(" + -1 * state_rotate +")");
+
+
+
+          //momsvg.attr("transform", " translate(" + state_translate + ")"
+            //+ " scale(" + state_scale + ")")
+        });
 
 
 }
 
 
-drawGraph(graph);
+
+$.getJSON("/floatsam/json/links", function(links) {
+  $.getJSON("/floatsam/json/floatsam", function(nids) {
 
 
+      var graph = {
+        nodes: nids,
+        links: links
+      };
 
-
-
-
-
-
-
-function redraw() {
-
-
-  state_translate = d3.event.translate;
-  state_scale = d3.event.scale;
-  momsvg.attr("transform", "translate(" + state_translate + ")"
-      + " scale(" + state_scale + ")"
-      );
-
-}
-
-
-
-
-
-
-
-
-
-
-
-function tick() {
-  link.attr("x1", function(d) { return d.source.x; })
-        .attr("y1", function(d) { return d.source.y; })
-        .attr("x2", function(d) { return d.target.x; })
-        .attr("y2", function(d) { return d.target.y; });
-
-    gnodes.attr("transform", function(d) {
-        return 'translate(' + [d.x, d.y] + ')';
-    });
-
-    console.log("sup");
-}
-
-
-
-
-
-
-
-
-
-
-
-  d3.timer(function() {
-    var delta = (Date.now() - t0);
-
-    state_rotate = 0 + delta * 1/900;
-
-    svg.attr("transform", "rotate(" + state_rotate + "," + spincenter_x +"," + spincenter_y +")");
-    // zoomListener.rotate([state_rotate,spincenter_x,spincenter_y]).transition();
-    labels.attr("transform", "rotate(" + -1 * state_rotate +")");
-
-
-
-    //momsvg.attr("transform", " translate(" + state_translate + ")"
-      //+ " scale(" + state_scale + ")")
+      drawGraph(graph);
   });
+});
+
+
+
+
+
+
+
 
 
 
@@ -386,11 +276,8 @@ function tick() {
     $.getJSON(url, function(data) {
       console.log(data);
       console.log(data.name);
-      $("#floatsam_id").html(data.floatsam_id);
-      $("#infotitle").html(data.name);
-      $("#infostory").html(data.story);
-      $("#infomain").show();
-      $("#floatsam_image").css("background-image","url(" + data.image + ")");
+      var template = _.template($("#infotemplate").html());
+      $("#infomain").html(template(data)).show();
     });
 
 
