@@ -13,6 +13,7 @@ from .forms import *
 
 def home(request):
   floatsam = Floatsam.objects.all()
+  current_star=Star.objects.get(id=request.user.id)
 
   for sam in floatsam:
     sam.peers = sam.coven.all()
@@ -20,8 +21,8 @@ def home(request):
       sam.charge = -300
     else:
       sam.charge = -2000
-
-  return render(request, 'homepage.html', {"floatsam":floatsam})
+  print (current_star.can_edit_array)
+  return render(request, 'homepage.html', {"floatsam":floatsam, "editable_slugs":current_star.can_edit_array})
 
 
 def directory(request):
@@ -36,6 +37,7 @@ def directory(request):
   return render(request, 'directory.html', {"constellations":constellations,"stars":stars,"jetsam":jetsam,"floatsam":floatsam})
 
 
+
 def floatsam_detail(request, slug):
   floatsam = get_object_or_404(Floatsam, slug=slug)
   floatsam.peers = floatsam.coven.all()
@@ -46,6 +48,7 @@ def floatsam_detail(request, slug):
 def json_floatsam_detail(request, slug):
   floatsam = get_object_or_404(Floatsam, slug=slug)
   floatsamjson = floatsam.json
+  floatsamjson["jetsam"] = [x.json for x in floatsam.jetsam_set.all()]
   return JsonResponse(floatsamjson)
 
 
@@ -69,6 +72,8 @@ def links_json(request):
 
   return JsonResponse(links, safe=False)
 
+
+
 def floatsam_json(request):
   floatsam = Floatsam.objects.all()
   floatsam_list=[{"num":0,"name":"FolkRoutes","charge":-200},]
@@ -88,7 +93,9 @@ def floatsam_json(request):
 
 
 @login_required
-def add_jetsam(request, slug=None):
+def add_jetsam(request, slug=None, makerslug=None):
+
+  print (makerslug)
 
   try:
     jetsam = Jetsam.objects.get(slug=slug)
@@ -97,10 +104,15 @@ def add_jetsam(request, slug=None):
 
   current_star=Star.objects.get(id=request.user.id)
   if jetsam:
-    if jetsam.maker.floatsam_id in [x.floatsam_id for x in current_star.coven.all()] or jetsam.maker.floatsam_id == current_star.floatsam_id:
+    if jetsam.maker.slug in current_star.can_edit_array:
       print ("woooo")
     else:
       return HttpResponse("No perms to do that")
+
+  if makerslug:
+    maker = get_object_or_404(Floatsam, slug=makerslug)
+  else:
+    maker = current_star
 
 
   if not jetsam and request.method == 'GET':
@@ -115,13 +127,19 @@ def add_jetsam(request, slug=None):
         form = JetsamAddForm(request.POST)
 
       if form.is_valid():
-        print (form)
+
         newjet = form.save(commit=False)
-        newjet.maker = current_star
+        newjet.maker = maker
+
+        print (request.FILES)
+
+        if request.FILES.get("upload"):
+          newjet.upload = request.FILES["upload"]
+
         newjet.save()
 
         print ("yay!")
-        return redirect('add_jetsam', slug=newjet.slug)
+        return redirect('add_jetsam', slug=newjet.slug, makerslug=maker.slug)
   return render(request, 'constellation/add_jetsam.html', {
-      'form': form, 'slug':slug,
+      'form': form, 'slug':slug, 'maker':maker,
   })

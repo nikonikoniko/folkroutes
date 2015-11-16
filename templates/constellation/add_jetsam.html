@@ -5,7 +5,7 @@
 {% block main %}
 
 
-<form action="{% url 'add_jetsam' slug=slug %}" method="post">
+<form action="{% url 'add_jetsam' slug=slug makerslug=maker.slug %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form }}
     <input type="submit" value="Submit" />

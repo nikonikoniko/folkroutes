@@ -35,7 +35,7 @@ h2.logo{
   font-family: 'liturgisch','UnifrakturMaguntia', cursive;
 }
 
-h1,h2,h3,h4{
+h1,h2,h3{
     font-family: 'liturgisch','UnifrakturMaguntia', cursive;
       font-weight:normal;
 
@@ -103,20 +103,27 @@ viz{
   z-index:999999;
   overflow-y:scroll;
       box-shadow: inset 0 -10px 10px -10px #000000;
+
 }
 
 #infomain::-webkit-scrollbar {
     display: none;
 }
 
-#infomain_inner{
-  padding:2em;
+.infomain_inner{
+  padding-left:2em;
+  padding-right:2em;
+  padding:1em 2em;
 }
 
-#floatsam_image{
+#floatsam_image, .jetsam_image{
   background-size: cover;
   height:300px;
   width:100%;
+}
+
+.jetsam{
+  border-top:1px dashed #ddd;
 }
 
 #mom{

@@ -47,12 +47,36 @@ class Imageable(models.Model):
 class Jetsam(Nameable):
   maker         = models.ForeignKey("Floatsam")
   upload        = models.FileField(upload_to="jetsam", null=True, blank=True)
+  summary       = models.TextField(null = True, blank = True)
   TYPES = (
     (1, "Writing"),
     (2, "Audio"),
     (3, "Image"),
     (4, "Document"))
   type = models.IntegerField(choices=TYPES, default=1)
+
+  @property
+  def upload_url(self):
+    if self.upload:
+      return self.upload.url
+    else:
+      return None
+
+
+
+  @property
+  def json(self):
+    return {
+        "name":self.name,
+        "story":self.story,
+        "type":self.type,
+        "slug":self.slug,
+        "maker":self.maker.name,
+        "upload":self.upload_url,
+        "maker_slug":self.maker.slug,
+
+        }
+
 
 # floatsam is a node on the network, a connecting point (project) or a human
 class Floatsam(Nameable, Imageable):
@@ -83,8 +107,18 @@ class Constellation(Floatsam):
 
 
 class Star(SecondUser, Floatsam):
+  @property
+  def can_edit_array(self):
+      peers = []
+      for peer in self.coven.all():
+        if hasattr(peer, "constellation"):
+          peers.append(peer)
+      return [x.slug for x in peers] + [self.slug]
+
   def __str__(self):
     return self.name
+
+
 
 
 

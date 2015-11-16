@@ -15,7 +15,25 @@
 
 </viz>
 
+<script type="foo/bar" id='jetsamtemplate'>
+  <div class="jetsam">
 
+    <% if (type==3){ %>
+      <div class="jetsam_image" style="background-image:url(<%= upload %>)">
+
+      </div>
+
+    <% } %>
+    <div class="infomain_inner">
+      <h4><%= name %></h4>
+      <p><%= story %></p>
+
+      <% if (_.contains({{ editable_slugs|safe }}, maker_slug)) { %>
+        <a href="{% url 'add_jetsam' %}/<%= maker_slug %>/<%= slug %>">edit</a>
+      <% } %>
+    </div>
+  </div>
+</script>
 
 
 <script type="foo/bar" id='infotemplate'>
@@ -24,19 +42,44 @@
     <%= slug %>
   </div>
 
-  <div id="infomain_inner">
+  <div class="infomain_inner">
     <h1 id="infotitle"><%= name %></h1>
   </div>
 
   <div id="floatsam_image" style="background-image:url(<%= image %>);">
   </div>
 
-   <div id="infomain_inner">
+   <div class="infomain_inner">
     <div id="infostory">
      <%= story %>
     </div>
   </div>
+
+  <div class="infomain_inner">
+    <h3>Jetsam</h3>
+  </div>
+
+  <% _.each(jetsam, function(jet){
+      console.log("aaaaaaaaaaaa");
+      console.log(jet);
+      var ttt = _.template( $("#jetsamtemplate").html());
+      var xxx = ttt(jet);
+  %>
+    <%= xxx %>
+  <%
+
+   }); %>
+
+  <% if (_.contains({{ editable_slugs|safe }}, slug)) { %>
+    <div class="infomain_inner">
+      <a href="{% url 'add_jetsam' %}/<%= slug %>">add jetsam</a>
+    </div>
+  <% } %>
+
+
 </script>
+
+
 
 
 
@@ -278,6 +321,7 @@ $.getJSON("/floatsam/json/links", function(links) {
       console.log(data.name);
       var template = _.template($("#infotemplate").html());
       $("#infomain").html(template(data)).show();
+      {{ editable_slugs|safe }}
     });
 
 
