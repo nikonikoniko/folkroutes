@@ -7,32 +7,26 @@
 
 
 
+<div id="page">
+<h1>Directory</h1>
 
-<h2>Directory</h2>
+<h3>Floatsam</h3>
 
 <h4>Constellations</h4>
 {% for item in constellations %}
-  <li>- {{ item.name }} -</li>
+  <li>{{ item.name }}</li>
 {% endfor %}
 
 <h4>Stars</h4>
 {% for item in stars %}
-  <li>- {{ item.name }} -</li>
+  <li>{{ item.name }}</li>
 {% endfor %}
 
 <h3>Jetsam</h3>
 {% for item in jetsam %}
- - {{ item.name }} -
+ <li>{{ item.name }}</li>
 {% endfor %}
 
- <h3>Floatsam</h3>
-{% for item in floatsam %}
- - {{ item.name }} -
- coven:
-  {% for thing in item.peers %}
-    {{ thing.name }}
-  {% endfor %}
-  <br />
-{% endfor %}
+</div>
 
 {%  endblock %}

@@ -13,7 +13,12 @@ from .forms import *
 
 def home(request):
   floatsam = Floatsam.objects.all()
-  current_star=Star.objects.get(id=request.user.id)
+  try:
+    current_star=Star.objects.get(id=request.user.id)
+    edit_array = current_star.can_edit_array
+  except:
+    current_star=None
+    edit_array=[]
 
   for sam in floatsam:
     sam.peers = sam.coven.all()
@@ -21,8 +26,7 @@ def home(request):
       sam.charge = -300
     else:
       sam.charge = -2000
-  print (current_star.can_edit_array)
-  return render(request, 'homepage.html', {"floatsam":floatsam, "editable_slugs":current_star.can_edit_array})
+  return render(request, 'homepage.html', {"floatsam":floatsam, "editable_slugs":edit_array})
 
 
 def directory(request):

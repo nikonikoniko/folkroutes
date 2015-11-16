@@ -23,6 +23,7 @@ body{
   font-size:12px;
   background-image:url("/static/sky.jpg");
   background-size:cover;
+  background-position: right bottom;
 }
 
 h2.logo{
@@ -63,7 +64,11 @@ a{
 }
 
 
-
+#page{
+  padding-left:2em;
+  padding-right:2em;
+  max-width:45em;
+}
 
 /* homepage */
 
@@ -102,8 +107,8 @@ viz{
   top:0;
   z-index:999999;
   overflow-y:scroll;
-      box-shadow: inset 0 -10px 10px -10px #000000;
-
+      box-shadow: 1px 0px 30px 1px rgba(0,0,0,.5), inset 0 -10px 10px -10px #000000;
+  background-color: #eee;
 }
 
 #infomain::-webkit-scrollbar {
