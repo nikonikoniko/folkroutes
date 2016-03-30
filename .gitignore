@@ -18,3 +18,5 @@ manage.py
 *.sqlite3
 __pycache__
 
+local_settings.py
+__pycache__/*
