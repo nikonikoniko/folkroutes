@@ -7,7 +7,10 @@ class CurrentUserMiddleware(object):
         _user.value = request.user
 
 def get_current_user():
-    return _user.value
+    if hasattr(_user, "value"):
+      return _user.value
+    else:
+      return 1
 
 def get_current_user_id():
     return _user.value.id
