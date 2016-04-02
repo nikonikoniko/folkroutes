@@ -24,6 +24,7 @@ body{
   background-image:url("/static/sky.jpg");
   background-size:cover;
   background-position: right bottom;
+  background-attachment: fixed;
 }
 
 h2.logo{
@@ -51,6 +52,10 @@ h1,h2,h3{
 
 a{
   color:#000;
+}
+
+p{
+  line-height:1em;
 }
 
 .mainmenu{
@@ -140,7 +145,7 @@ viz{
   max-width:800px;
   position: relative;
   margin: 20 auto;
-  background-color:rgba(0,0,0,.2);
+  background-color:white;
   margin-left:5em;
   padding:5em;
 }

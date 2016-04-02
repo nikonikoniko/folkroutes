@@ -4,8 +4,11 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.contenttypes.models import ContentType
 import json
 from django.core.serializers.json import DjangoJSONEncoder
+from django.core.urlresolvers import reverse
 from django.forms.models import model_to_dict
 from django.http import JsonResponse
+
+from django.core.exceptions import PermissionDenied
 
 from .models import *
 from .forms import *
@@ -96,10 +99,17 @@ def floatsam_json(request):
   return JsonResponse(floatsam_list, safe=False)
 
 
+def check_perms(request, slug):
+  current_star =Star.objects.get(id=request.user.id)
+  if slug in current_star.can_edit_array:
+      pass
+  else:
+    raise PermissionDenied("No perms to do that")
+
+
+
 @login_required
 def add_jetsam(request, slug=None, makerslug=None):
-
-  print (makerslug)
 
   try:
     jetsam = Jetsam.objects.get(slug=slug)
@@ -107,11 +117,9 @@ def add_jetsam(request, slug=None, makerslug=None):
     jetsam = None
 
   current_star=Star.objects.get(id=request.user.id)
+
   if jetsam:
-    if jetsam.maker.slug in current_star.can_edit_array:
-      print ("woooo")
-    else:
-      return HttpResponse("No perms to do that")
+    check_perms(request, jetsam.maker.slug)
 
   if makerslug:
     maker = get_object_or_404(Floatsam, slug=makerslug)
@@ -122,7 +130,6 @@ def add_jetsam(request, slug=None, makerslug=None):
   if not jetsam and request.method == 'GET':
       form = JetsamAddForm()
   elif jetsam and request.method == 'GET':
-    print ("in here")
     form = JetsamAddForm(instance=jetsam)
   else:
       if jetsam:
@@ -142,8 +149,42 @@ def add_jetsam(request, slug=None, makerslug=None):
 
         newjet.save()
 
-        print ("yay!")
         return redirect('add_jetsam', slug=newjet.slug, makerslug=maker.slug)
-  return render(request, 'constellation/add_jetsam.html', {
-      'form': form, 'slug':slug, 'maker':maker,
+
+  submit_url = reverse("add_jetsam", args={
+    slug, maker.slug,
+    })
+
+  return render(request, 'constellation/generic_form.html', {
+      'form': form, 'submit_url':submit_url,
+  })
+
+
+
+@login_required
+def edit_floatsam(request, slug=None):
+
+  floatsam = get_object_or_404(Floatsam, slug=slug)
+
+  form = FloatsamEditForm(instance=floatsam)
+
+  check_perms(request, floatsam.slug)
+
+  if request.method == 'POST':
+    form = FloatsamEditForm(request.POST, instance=floatsam)
+    if form.is_valid():
+      newfloat = form.save(commit=False)
+      if request.FILES.get("vanity_image"):
+        newfloat.vanity_image = request.FILES["vanity_image"]
+      newfloat.save()
+  else:
+    form = FloatsamEditForm(instance=floatsam)
+
+
+  submit_url = reverse("edit_floatsam", args={
+    slug,
+    })
+
+  return render(request, 'constellation/generic_form.html', {
+      'form': form, 'submit_url':submit_url,
   })

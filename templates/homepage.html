@@ -44,6 +44,9 @@
 
   <div class="infomain_inner">
     <h1 id="infotitle"><%= name %></h1>
+    <% if (_.contains({{ editable_slugs|safe }}, slug)) { %>
+        <a href="{% url 'edit_floatsam' %}/<%= slug %>">edit this page</a>
+      <% } %>
   </div>
 
   <div id="floatsam_image" style="background-image:url(<%= image %>);">
