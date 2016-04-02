@@ -14,6 +14,11 @@ urlpatterns = [
     url(r'^edit/(?P<slug>[\w-]+)/$', views.edit_floatsam, name='edit_floatsam'),
     url(r'^edit$', views.edit_floatsam, name='edit_floatsam'),
 
+    url(r'^request/(?P<slug>[\w-]+)/$', views.request_floatsam, name='request_floatsam'),
+    url(r'^accept/(?P<initiator_slug>[\w-]+)/(?P<recipient_slug>[\w-]+)/$', views.accept_request, name='accept_request'),
+    url(r'^deny/(?P<initiator_slug>[\w-]+)/(?P<recipient_slug>[\w-]+)/$', views.deny_request, name='deny_request'),
+
+
     url(r'^(?P<slug>[\w-]+)/$', views.floatsam_detail, name='floatsam_detail'),
     url(r'^json/(?P<slug>[\w-]+)/$', views.json_floatsam_detail, name='json_floatsam_detail'),
 

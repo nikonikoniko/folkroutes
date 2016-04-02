@@ -11,14 +11,17 @@ from django.core.context_processors import csrf
 from .models import *
 from .forms import *
 
+from constellation.models import Star, ConnectionRequest
+
 
 
 
 @login_required
 def index(request):
-  user = request.user
+  user = Star.objects.get(id=request.user.id)
+  connectionrequests = ConnectionRequest.objects.all().filter(recipient__in=user.coven.all)
+  return render(request, 'seconduser/index.html', {"user":user,"connectionrequests":connectionrequests})
 
-  return render(request, 'seconduser/index.html', {"user":user,})
 
 def seconduser_login(request):
   if request.method == 'POST':
@@ -26,10 +29,8 @@ def seconduser_login(request):
     password = request.POST['password']
     redirect = request.POST['redirect']
     user = authenticate(email=email, password=password)
-    print ("aaaaaaaaaaaaaaaa")
     print (user)
     if user is not None:
-      print ("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee")
       login(request, user)
       if redirect != "":
         return HttpResponseRedirect(redirect)

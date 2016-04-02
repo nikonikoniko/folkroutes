@@ -4,7 +4,18 @@
 
 {% block main %}
 <h1>Your Account</h1>
-<h4>{{user.email}}</h2>
+
+<h2>{{user.name}}</h2>
+<h3>{{user.email}}</h3>
+
+{% for connection in connectionrequests %}
+  <div class="request">
+    {{ connection.initiator.name }} -> {{ connection.recipient.name }} |
+      <a target="_blank" href = "{% url 'accept_request' initiator_slug=connection.initiator.slug recipient_slug=connection.recipient.slug %}">accept request</a>
+      <a target="_blank" href = "{% url 'deny_request' initiator_slug=connection.initiator.slug recipient_slug=connection.recipient.slug %}">deny request</a>
+  </div>
+{% endfor %}
+
 <a href="logout/">logout</a>
 {% endblock main%}
 

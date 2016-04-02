@@ -188,3 +188,38 @@ def edit_floatsam(request, slug=None):
   return render(request, 'constellation/generic_form.html', {
       'form': form, 'submit_url':submit_url,
   })
+
+
+@login_required
+def request_floatsam(request, slug=None):
+  recipient     = get_object_or_404(Floatsam, slug=slug)
+  initiator     = Star.objects.get(id=request.user.id)
+  connection    = ConnectionRequest.objects.get_or_create(initiator=initiator, recipient=recipient)
+  return HttpResponse("connection requested")
+
+@login_required
+def accept_request(request, initiator_slug=None, recipient_slug=None):
+  check_perms(request, recipient_slug)
+  initiator     = get_object_or_404(Floatsam, slug=initiator_slug)
+  recipient     = get_object_or_404(Floatsam, slug=recipient_slug)
+  connection    = get_object_or_404(ConnectionRequest, initiator=initiator, recipient=recipient)
+  try:
+    ConnectionRequest.objects.get(initiator=recipient, recipient=initiator).delete()
+  except:
+    pass
+  initiator.coven.add(recipient)
+  initiator.save()
+  connection.delete()
+  return HttpResponse("connection added!")
+
+
+@login_required
+def deny_request(request, initiator_slug=None, recipient_slug=None):
+  check_perms(request, recipient_slug)
+  initiator     = get_object_or_404(Floatsam, slug=initiator_slug)
+  recipient     = get_object_or_404(Floatsam, slug=recipient_slug)
+  connection    = get_object_or_404(ConnectionRequest, initiator=initiator, recipient=recipient)
+  connection.delete()
+  return HttpResponse("connection deleted")
+
+

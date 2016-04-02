@@ -120,7 +120,12 @@ class Star(SecondUser, Floatsam):
 
 
 
+class ConnectionRequest(models.Model):
+  initiator = models.ForeignKey("Floatsam", related_name="initiator")
+  recipient = models.ForeignKey("Floatsam", related_name="recipient")
 
+  def __str__(self):
+    return self.initiator.name + " > " + self.recipient.name
 
 
 

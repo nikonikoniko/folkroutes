@@ -27,6 +27,8 @@ body{
   background-attachment: fixed;
 }
 
+
+
 h2.logo{
   /*color:#eaa;*/
   color:black;
@@ -40,6 +42,10 @@ h2.logo{
 h1,h2,h3{
     font-family: 'liturgisch','UnifrakturMaguntia', cursive;
       font-weight:normal;
+}
+
+h1,h2,h3,h4{
+      color:black;
 
 }
 
@@ -112,7 +118,7 @@ viz{
   z-index:999999;
   overflow-y:scroll;
       box-shadow: 1px 0px 30px 1px rgba(0,0,0,.5), inset 0 -10px 10px -10px #000000;
-  background-color: #eee;
+  background-color: #f6f6f6;
 }
 
 #infomain::-webkit-scrollbar {
@@ -127,13 +133,15 @@ viz{
 
 #floatsam_image, .jetsam_image{
   background-size: cover;
-  height:300px;
+  height:250px;
   width:100%;
 }
 
 .jetsam{
-  border-top:1px dashed #ddd;
-}
+  padding: 1em;
+  margin: 1em;
+  background-color: white;
+  }
 
 #mom{
   width:100% !important;

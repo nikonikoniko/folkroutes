@@ -14,6 +14,9 @@ class ConstellationAdmin(admin.ModelAdmin):
 class JetsamAdmin(admin.ModelAdmin):
   pass
 
+class ConnectionRequestAdmin(admin.ModelAdmin):
+  pass
+
 class StarAdmin(UserAdmin, LeafletGeoAdmin):
   add_form = SecondUserAddForm
 
@@ -40,3 +43,4 @@ class StarAdmin(UserAdmin, LeafletGeoAdmin):
 admin.site.register(Star, StarAdmin)
 admin.site.register(Constellation, ConstellationAdmin)
 admin.site.register(Jetsam, JetsamAdmin)
+admin.site.register(ConnectionRequest, ConnectionRequestAdmin)
