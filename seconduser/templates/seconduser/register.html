@@ -1,13 +1,20 @@
+{% extends "content.html" %}
 
 
 
 
-{% block article %}
+{% block main %}
+
+<h1>Register for a Folkroutes account</h1>
 
 <form method="post" action="/accounts/register/">
 
     {{ form.non_field_errors }}
-
+<p>
+    {{ form.name.errors }}
+    <label for="id_name">Name:</label>
+    <input id="id_name" name="name" type="name" />
+</p>
 <p>
     {{ form.email.errors }}
     <label for="id_email">Email:</label>
@@ -25,7 +32,7 @@
 </p>
 <p>
     {{ form.humancheck.errors }}
-    <label for="humancheck">Type <i>Human</i> if you are human:</label>
+    <label for="humancheck">Invitation Code:</label>
     <input id="id_humancheck" name="humancheck" type="text" />
 </p>
 <p>
@@ -34,4 +41,4 @@
 </p>
 </form>
 
-{% endblock article %}
+{% endblock main %}

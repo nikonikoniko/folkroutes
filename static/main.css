@@ -40,7 +40,6 @@ h1,h2,h3{
     font-family: 'liturgisch','UnifrakturMaguntia', cursive;
       font-weight:normal;
 
-
 }
 
 .logo{
@@ -134,4 +133,22 @@ viz{
 #mom{
   width:100% !important;
   height:100% !important;
+}
+
+
+.content {
+  max-width:800px;
+  position: relative;
+  margin: 20 auto;
+  background-color:rgba(0,0,0,.2);
+  margin-left:5em;
+  padding:5em;
+}
+
+input, textarea, select, button{
+  color:white;
+  background-color:rgba(0,0,0,.5);
+  border:0;
+  padding:.5em;
+  font-family: "iosevka";
 }

@@ -1,13 +1,18 @@
-{% extends 'base.html' %}
+{% extends 'content.html' %}
 
 
 
 {% block main %}
-
+<h1>Add Jetsam</h1>
 
 <form action="{% url 'add_jetsam' slug=slug makerslug=maker.slug %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    {{ form }}
+    {% for field in form %}
+      <div>
+      {{ field.label }}
+      {{field}}
+      </div>
+    {% endfor %}
     <input type="submit" value="Submit" />
 </form>
 {%  endblock %}

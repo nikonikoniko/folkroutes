@@ -5,14 +5,15 @@ from .models import *
 from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
 
+from constellation.models import Star
 
 class SecondUserChangeForm(forms.ModelForm):
   password = ReadOnlyPasswordHashField()
   issues_purchased = forms.CharField()
 
   class Meta:
-      model = SecondUser
-      fields = ("issues_purchased",)
+      fields = ("name",)
+      model = Star
 
   def clean_password(self):
       # always return the initial value
@@ -24,7 +25,7 @@ class SecondUserAddForm(forms.ModelForm):
     password2 = forms.CharField(label="Password confirmation", widget=forms.PasswordInput)
 
     class Meta:
-        model = SecondUser
+        model = Star
         fields = ("email",)
 
     def clean_password2(self):
@@ -47,16 +48,17 @@ class SecondUserAddForm(forms.ModelForm):
 
 
 class SecondUserRegistrationForm(UserCreationForm):
-    email = forms.EmailField(required = True)
-    username = forms.CharField(required=False)
-    humancheck = forms.CharField(required=False, error_messages={'invalid':"You are not Human!"})
+    email       = forms.EmailField(required = True)
+    username    = forms.CharField(required=False)
+    humancheck  = forms.CharField(required=False, error_messages={'invalid':"You have not been invited!"})
+
 
     class Meta:
-        model = SecondUser
-        fields = ('email', 'password1', 'password2')
+        model = Star
+        fields = ('email', 'password1', 'password2', 'name')
 
     def clean_humancheck(self):
-      if self.cleaned_data['humancheck'] != "Human":
+      if self.cleaned_data['humancheck'] != "evenonlythatisasitseems":
         raise ValidationError(self.fields['humancheck'].error_messages['invalid'])
       return self
 
