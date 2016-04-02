@@ -1,0 +1,9 @@
+
+    <a href="/accounts/" title="your account">
+      {% if user.email %}
+        {{ user.email }}
+      {% else %}
+        Login
+      {% endif %}
+
+    </a>
