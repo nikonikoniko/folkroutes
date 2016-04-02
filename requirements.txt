@@ -4,3 +4,4 @@ django-leaflet
 pillow
 django-stdimage
 django-autoslug
+psycopg2
