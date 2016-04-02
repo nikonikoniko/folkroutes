@@ -29,7 +29,7 @@
       <p><%= story %></p>
 
       <% if (_.contains({{ editable_slugs|safe }}, maker_slug)) { %>
-        <a href="{% url 'add_jetsam' %}/<%= maker_slug %>/<%= slug %>">edit</a>
+        <a class="action" href="{% url 'add_jetsam' %}/<%= maker_slug %>/<%= slug %>">edit</a>
       <% } %>
     </div>
   </div>
@@ -40,13 +40,21 @@
 
   <div class="infomain_inner">
     <h1 id="infotitle"><%= name %></h1>
-    <% if (_.contains({{ editable_slugs|safe }}, slug)) { %>
-        <a href="{% url 'edit_floatsam' %}/<%= slug %>">edit this page</a>
-      <% } %>
+
+
   </div>
 
   <div id="floatsam_image" style="background-image:url(<%= image %>);">
   </div>
+
+   <% if (_.contains({{ editable_slugs|safe }}, slug)) { %>
+        <a class="action" href="{% url 'edit_floatsam' %}/<%= slug %>">edit this page</a>
+      <% } %>
+
+    {% if user.email %}
+        <a class="action async" target="_blank" href="{% url 'request_floatsam' %}/<%= slug %>">request connection</a>
+
+    {% endif %}
 
    <div class="infomain_inner">
     <div id="infostory">
@@ -56,8 +64,6 @@
 
 
   <% _.each(jetsam, function(jet){
-      console.log("aaaaaaaaaaaa");
-      console.log(jet);
       var ttt = _.template( $("#jetsamtemplate").html());
       var xxx = ttt(jet);
   %>
@@ -68,7 +74,7 @@
 
   <% if (_.contains({{ editable_slugs|safe }}, slug)) { %>
     <div class="infomain_inner">
-      <a href="{% url 'add_jetsam' %}/<%= slug %>">add jetsam</a>
+      <a class="action" href="{% url 'add_jetsam' %}/<%= slug %>">add jetsam</a>
     </div>
   <% } %>
 

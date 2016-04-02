@@ -7,26 +7,33 @@
 
 
 
-<div id="page">
 <h1>Directory</h1>
 
-<h3>Floatsam</h3>
+<hr>
 
-<h4>Constellations</h4>
-{% for item in constellations %}
-  <li>{{ item.name }}</li>
-{% endfor %}
+<div class="halfwidth">
 
-<h4>Stars</h4>
-{% for item in stars %}
-  <li>{{ item.name }}</li>
-{% endfor %}
+  <h3>Floatsam</h3>
 
-<h3>Jetsam</h3>
-{% for item in jetsam %}
- <li>{{ item.name }}</li>
-{% endfor %}
+  <h4>Constellations</h4>
+  {% for item in constellations %}
+    <li>{{ item.name }}</li>
+  {% endfor %}
+
+  <h4>Stars</h4>
+  {% for item in stars %}
+    <li>{{ item.name }}</li>
+  {% endfor %}
 
 </div>
+
+<div class="halfwidth">
+
+  <h3>Jetsam</h3>
+  {% for item in jetsam %}
+   <li>{{ item.name }}</li>
+  {% endfor %}
+</div>
+
 
 {%  endblock %}

@@ -14,12 +14,12 @@ from .forms import *
 from constellation.models import Star, ConnectionRequest
 
 
-
+from django.db.models import Q
 
 @login_required
 def index(request):
   user = Star.objects.get(id=request.user.id)
-  connectionrequests = ConnectionRequest.objects.all().filter(recipient__in=user.coven.all)
+  connectionrequests = ConnectionRequest.objects.all().filter(Q(recipient__in=user.coven.all) | Q(recipient=user))
   return render(request, 'seconduser/index.html', {"user":user,"connectionrequests":connectionrequests})
 
 

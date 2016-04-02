@@ -107,6 +107,12 @@ def check_perms(request, slug):
     raise PermissionDenied("No perms to do that")
 
 
+@login_required
+def delete_jetsam(request, slug):
+  jetsam = get_object_or_404(Jetsam, slug=slug)
+  check_perms(request, jetsam.maker.slug)
+  jetsam.delete()
+  return HttpResponse("jetsam deleted")
 
 @login_required
 def add_jetsam(request, slug=None, makerslug=None):

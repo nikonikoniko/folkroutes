@@ -11,10 +11,15 @@ urlpatterns = [
     url(r'^jetsam/change/(?P<makerslug>[\w-]+)/$', views.add_jetsam, name='add_jetsam'),
     url(r'^jetsam/change$', views.add_jetsam, name='add_jetsam'),
 
+    url(r'^jetsam/delete/(?P<slug>[\w-]+)/$', views.delete_jetsam, name='delete_jetsam'),
+
+
     url(r'^edit/(?P<slug>[\w-]+)/$', views.edit_floatsam, name='edit_floatsam'),
     url(r'^edit$', views.edit_floatsam, name='edit_floatsam'),
 
     url(r'^request/(?P<slug>[\w-]+)/$', views.request_floatsam, name='request_floatsam'),
+    url(r'^request$', views.request_floatsam, name='request_floatsam'),
+
     url(r'^accept/(?P<initiator_slug>[\w-]+)/(?P<recipient_slug>[\w-]+)/$', views.accept_request, name='accept_request'),
     url(r'^deny/(?P<initiator_slug>[\w-]+)/(?P<recipient_slug>[\w-]+)/$', views.deny_request, name='deny_request'),
 

@@ -3,19 +3,39 @@
 
 
 {% block main %}
-<h1>Your Account</h1>
+<h4>Your Account</h4>
+<hr>
 
 <h2>{{user.name}}</h2>
-<h3>{{user.email}}</h3>
+<h4>{{user.email}}</h4>
 
+<h3>My Profile</h3>
+<p>{{user.story}}</p>
+<a class="action" href="{% url 'edit_floatsam' user.slug %}">edit my profile</a>
+
+
+<h3>Connection Requests</h3>
+<p>Here we list the requests of people who want to connect with you and your projects.  You can accept or deny them!</p>
 {% for connection in connectionrequests %}
+  <hr>
   <div class="request">
-    {{ connection.initiator.name }} -> {{ connection.recipient.name }} |
-      <a target="_blank" href = "{% url 'accept_request' initiator_slug=connection.initiator.slug recipient_slug=connection.recipient.slug %}">accept request</a>
-      <a target="_blank" href = "{% url 'deny_request' initiator_slug=connection.initiator.slug recipient_slug=connection.recipient.slug %}">deny request</a>
+    <strong>{{ connection.initiator.name }} -> {{ connection.recipient.name }}</strong>
+      <a target="_blank" class="action async" href = "{% url 'accept_request' initiator_slug=connection.initiator.slug recipient_slug=connection.recipient.slug %}">accept request</a>
+      <a target="_blank" class="action async"  href = "{% url 'deny_request' initiator_slug=connection.initiator.slug recipient_slug=connection.recipient.slug %}">deny request</a>
   </div>
 {% endfor %}
 
-<a href="logout/">logout</a>
+<h3>Jetsam</h3>
+{% for jetsam in user.jetsam_set.all %}
+  <hr>
+  <div class="jetsamadmin">
+  {{jetsam.name}} | {{jetsam.maker.name }}
+  <a class="action" target=_blank href="{% url 'delete_jetsam' jetsam.slug %}">delete</a>
+  </div>
+{% endfor %}
+
+<h3>Actions</h3>
+
+<a class="action" href="logout/">logout</a>
 {% endblock main%}
 
