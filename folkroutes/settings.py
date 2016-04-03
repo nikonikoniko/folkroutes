@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'seconduser',
     'leaflet',
     'constellation',
+    'django_summernote',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -115,3 +116,72 @@ AUTHENTICATION_BACKENDS = [
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = "media/"
 
+
+
+
+
+
+
+SUMMERNOTE_CONFIG = {
+    # Using SummernoteWidget - iframe mode
+    'iframe': True,  # or set False to use SummernoteInplaceWidget - no iframe mode
+
+    # Using Summernote Air-mode
+    'airMode': False,
+
+    # Use native HTML tags (`<b>`, `<i>`, ...) instead of style attributes
+    # (Firefox, Chrome only)
+    'styleWithTags': True,
+
+    # Change editor size
+    'width': '100%',
+    'height': '480',
+
+
+    # Customize toolbar buttons
+    'toolbar': [
+        ['style', ['style']],
+        ['style', ['bold', 'italic', 'underline', 'clear']],
+        ['para', ['ul', 'ol']],
+        ['insert', ['link', 'hr']],
+    ],
+
+    # Need authentication while uploading attachments.
+    'attachment_require_authentication': True,
+
+    # # Set `upload_to` function for attachments.
+    # 'attachment_upload_to': my_custom_upload_to_func(),
+
+    # # Set custom storage class for attachments.
+    # 'attachment_storage_class': 'my.custom.storage.class.name',
+
+    # # Set custom model for attachments (default: 'django_summernote.Attachment')
+    # 'attachment_model': 'my.custom.attachment.model', # must inherit 'django_summernote.AbstractAttachment'
+
+    # # Set css/js media files
+    # 'external_css': (
+    #     '//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css',
+    # ),
+    # 'external_js': (
+    #     '//code.jquery.com/jquery-1.9.1.min.js',
+    #     '//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js',
+    # ),
+    # 'internal_css': (
+    #     static_url('django_summernote/summernote.css'),
+    # ),
+    # 'internal_js': (
+    #     static_url('django_summernote/jquery.ui.widget.js'),
+    #     static_url('django_summernote/jquery.iframe-transport.js'),
+    #     static_url('django_summernote/jquery.fileupload.js'),
+    #     static_url('django_summernote/summernote.min.js'),
+    # ),
+    # # for SummernoteWidget.
+    # 'internal_css_for_iframe': (
+    #     static_url('django_summernote/django_summernote.css'),
+    # ),
+    # # for SummernoteInplaceWidget.
+    # # !!! Be sure to put {{ form.media }} in template before initiate summernote.
+    # 'internal_css_for_inplace': (
+    #     static_url('django_summernote/django_summernote_inplace.css'),
+    # ),
+}

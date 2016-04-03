@@ -1,0 +1,15 @@
+{% extends 'content.html' %}
+
+
+
+{% block main %}
+
+
+<h1>{{ jetsam.name }} - {{jetsam.maker.name}}</h1>
+<hr>
+
+<p>{{ jetsam.story |safe}}<p>
+
+
+
+{%  endblock %}

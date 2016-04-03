@@ -173,15 +173,22 @@ input, textarea, select, button{
   font-family: "iosevka";
 }
 
-.action{
+input[type="submit"]{
+  font-size:3em;
+}
+
+.action, input[type="submit"]{
   background-color:#4D1926;
   color:white;
   float:right;
   padding:0 1em;
   margin:0 1em;
+  cursor: pointer;
 }
 
 .halfwidth{
   width:49%;
   float:left;
 }
+
+.formlabel{font-weight:bold;}

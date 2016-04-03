@@ -13,6 +13,9 @@ urlpatterns = [
 
     url(r'^jetsam/delete/(?P<slug>[\w-]+)/$', views.delete_jetsam, name='delete_jetsam'),
 
+    url(r'^jetsam/(?P<slug>[\w-]+)/$', views.jetsam_detail, name='jetsam_detail'),
+
+
 
     url(r'^edit/(?P<slug>[\w-]+)/$', views.edit_floatsam, name='edit_floatsam'),
     url(r'^edit$', views.edit_floatsam, name='edit_floatsam'),

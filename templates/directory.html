@@ -31,7 +31,9 @@
 
   <h3>Jetsam</h3>
   {% for item in jetsam %}
-   <li>{{ item.name }}</li>
+    <a href="{% url 'jetsam_detail' slug=item.slug %}">
+      <li>{{ item.name }} | {{item.maker.name}}</li>
+    </a>
   {% endfor %}
 </div>
 

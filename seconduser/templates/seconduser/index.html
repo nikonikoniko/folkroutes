@@ -4,6 +4,8 @@
 
 {% block main %}
 <h4>Your Account</h4>
+<a class="action" href="logout/">logout</a>
+
 <hr>
 
 <h2>{{user.name}}</h2>
@@ -30,12 +32,12 @@
   <hr>
   <div class="jetsamadmin">
   {{jetsam.name}} | {{jetsam.maker.name }}
+    <a class="action" target=_blank href="{% url 'add_jetsam' jetsam.maker.slug jetsam.slug %}">edit</a>
+
   <a class="action" target=_blank href="{% url 'delete_jetsam' jetsam.slug %}">delete</a>
   </div>
 {% endfor %}
 
-<h3>Actions</h3>
 
-<a class="action" href="logout/">logout</a>
 {% endblock main%}
 

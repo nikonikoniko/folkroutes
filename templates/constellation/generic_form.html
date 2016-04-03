@@ -8,11 +8,13 @@
 <form action="{{submit_url}}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {% for field in form %}
-      <div>
-      {{ field.label }}
-      {{field}}
+      <hr>
+      <div class="formfield">
+        <div class="formlabel">{{ field.label }}</div>
+        <div class="forminput">{{field}}</div>
       </div>
     {% endfor %}
+    <hr>
     <input type="submit" value="Save" />
 </form>
 {%  endblock %}

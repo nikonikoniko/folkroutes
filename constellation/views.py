@@ -52,6 +52,10 @@ def floatsam_detail(request, slug):
   constellations = []
   return render(request, 'constellation/floatsam_detail.html',{"floatsam":floatsam,"constellations":constellations})
 
+def jetsam_detail(request, slug):
+  jetsam = get_object_or_404(Jetsam, slug=slug)
+  return render(request, 'constellation/jetsam_detail.html',{"jetsam":jetsam,})
+
 def json_floatsam_detail(request, slug):
   floatsam = get_object_or_404(Floatsam, slug=slug)
   floatsamjson = floatsam.json
@@ -155,11 +159,9 @@ def add_jetsam(request, slug=None, makerslug=None):
 
         newjet.save()
 
-        return redirect('add_jetsam', slug=newjet.slug, makerslug=maker.slug)
+        return redirect('jetsam_detail', slug=newjet.slug)
 
-  submit_url = reverse("add_jetsam", args={
-    slug, maker.slug,
-    })
+  submit_url = reverse("add_jetsam", args=(maker.slug, slug))
 
   return render(request, 'constellation/generic_form.html', {
       'form': form, 'submit_url':submit_url,
