@@ -16,23 +16,26 @@
 </viz>
 
 <script type="foo/bar" id='jetsamtemplate'>
-  <div class="jetsam">
 
-    <% if (type==3){ %>
-      <div class="jetsam_image" style="background-image:url(<%= upload %>)">
+    <div class="jetsam">
 
-      </div>
+      <% if (type==3){ %>
+        <div class="jetsam_image" style="background-image:url(<%= upload %>)">
 
-    <% } %>
-    <div class="infomain_inner">
-      <h4><%= name %></h4>
-      <p><%= story %></p>
+        </div>
 
-      <% if (_.contains({{ editable_slugs|safe }}, maker_slug)) { %>
-        <a class="action" href="{% url 'add_jetsam' %}/<%= maker_slug %>/<%= slug %>">edit</a>
       <% } %>
+      <div class="infomain_inner">
+        <h4><%= name %></h4>
+        <p><%= summary %></p>
+
+        <% if (_.contains({{ editable_slugs|safe }}, maker_slug)) { %>
+          <a class="action" href="{% url 'add_jetsam' %}/<%= maker_slug %>/<%= slug %>">edit</a>
+        <% } %>
+
+        <a href="/floatsam/jetsam/<%= slug %>" >view  </a>
+      </div>
     </div>
-  </div>
 </script>
 
 

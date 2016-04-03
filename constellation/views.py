@@ -197,6 +197,33 @@ def edit_floatsam(request, slug=None):
       'form': form, 'submit_url':submit_url,
   })
 
+@login_required
+def add_floatsam(request):
+
+  if request.method == 'POST':
+    form = ConstellationAddForm(request.POST)
+    if form.is_valid():
+      newfloat = Floatsam(name=form.cleaned_data["name"])
+      newfloat.save()
+      newconst = form.save(commit=False)
+      if request.FILES.get("vanity_image"):
+        newconst.vanity_image = request.FILES["vanity_image"]
+      newconst.from_floatsam = newfloat
+      newconst.save()
+      newconst.coven.add(Star.objects.get(id=request.user.id))
+      newconst.save()
+      return HttpResponseRedirect(reverse("index"))
+
+  else:
+    form = ConstellationAddForm()
+
+  submit_url = reverse("add_floatsam")
+
+  return render(request, 'constellation/generic_form.html', {
+      'form': form, 'submit_url':submit_url,
+  })
+
+
 
 @login_required
 def request_floatsam(request, slug=None):
@@ -218,7 +245,7 @@ def accept_request(request, initiator_slug=None, recipient_slug=None):
   initiator.coven.add(recipient)
   initiator.save()
   connection.delete()
-  return HttpResponse("connection added!")
+  return HttpResponseRedirect(reverse("index"))
 
 
 @login_required
@@ -228,6 +255,6 @@ def deny_request(request, initiator_slug=None, recipient_slug=None):
   recipient     = get_object_or_404(Floatsam, slug=recipient_slug)
   connection    = get_object_or_404(ConnectionRequest, initiator=initiator, recipient=recipient)
   connection.delete()
-  return HttpResponse("connection deleted")
+  return HttpResponseRedirect(reverse("index"))
 
 

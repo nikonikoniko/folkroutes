@@ -128,6 +128,8 @@ SUMMERNOTE_CONFIG = {
     # Using Summernote Air-mode
     'airMode': False,
 
+    'onpaste':True,
+    'stripTags': True,
     # Use native HTML tags (`<b>`, `<i>`, ...) instead of style attributes
     # (Firefox, Chrome only)
     'styleWithTags': True,

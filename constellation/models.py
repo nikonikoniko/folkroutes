@@ -72,6 +72,7 @@ class Jetsam(Nameable):
     return {
         "name":self.name,
         "story":self.story,
+        "summary":self.summary,
         "type":self.type,
         "slug":self.slug,
         "maker":self.maker.name,

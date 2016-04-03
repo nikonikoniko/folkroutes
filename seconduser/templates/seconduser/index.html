@@ -1,5 +1,6 @@
 {% extends "content.html" %}
 
+{% block title %} My Account | {{super}} {% endblock title %}
 
 
 {% block main %}
@@ -28,15 +29,41 @@
 {% endfor %}
 
 <h3>Jetsam</h3>
+<p>Jetsam is the work that you or your projects (constellations) have made.  Here you can edit them.  To add Jetsam, navigate to the Constellation in the galaxy (homepage) and then add it there.</p>
 {% for jetsam in user.jetsam_set.all %}
   <hr>
   <div class="jetsamadmin">
-  {{jetsam.name}} | {{jetsam.maker.name }}
+    <strong>{{jetsam.name}} | {{jetsam.maker.name }}</strong>
     <a class="action" target=_blank href="{% url 'add_jetsam' jetsam.maker.slug jetsam.slug %}">edit</a>
 
   <a class="action" target=_blank href="{% url 'delete_jetsam' jetsam.slug %}">delete</a>
   </div>
 {% endfor %}
+
+<h3>Coven</h3>
+<p>Your Coven is the Stars and Constellations that you are connected to.  You can edit the Constellations that you are part of.</p>
+{% for floatsam in user.coven.all %}
+  <hr>
+  <div class="jetsamadmin">
+
+  <strong>{{ floatsam.name}} |
+
+  {% if floatsam.constellation %}
+    Constellation
+  {% else %}
+    Star
+  {% endif %}</strong>
+
+  {% if floatsam.constellation %}
+    <a class="action" href="{% url 'edit_floatsam' floatsam.slug %}">edit</a>
+  {% endif %}
+
+  </div>
+{% endfor %}
+
+<hr>
+<p>Click "Add Constellation" to add a new project (a band, a collective, a group) to the network.  Other members can then request a connection with this project.</p>
+<a class="action" href="{% url 'add_floatsam' %}">Add Constellation</a>
 
 
 {% endblock main%}

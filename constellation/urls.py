@@ -20,6 +20,9 @@ urlpatterns = [
     url(r'^edit/(?P<slug>[\w-]+)/$', views.edit_floatsam, name='edit_floatsam'),
     url(r'^edit$', views.edit_floatsam, name='edit_floatsam'),
 
+    url(r'^add$', views.add_floatsam, name='add_floatsam'),
+
+
     url(r'^request/(?P<slug>[\w-]+)/$', views.request_floatsam, name='request_floatsam'),
     url(r'^request$', views.request_floatsam, name='request_floatsam'),
 
