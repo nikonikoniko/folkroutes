@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-from folkroutes.local_settings import *
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -24,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'c=04jqi5)7y^n7rltq3i1l9awx7#a!q-p-q6@t!t&=asz10+q&'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['folkroutes.org']
 
 
 # Application definition
@@ -185,3 +184,6 @@ SUMMERNOTE_CONFIG = {
     #     static_url('django_summernote/django_summernote_inplace.css'),
     # ),
 }
+
+
+from folkroutes.local_settings import *

@@ -192,3 +192,13 @@ input[type="submit"]{
 }
 
 .formlabel{font-weight:bold;}
+
+li{
+  list-style: none;
+}
+
+li:before{
+  content:"- ";
+  font-family: "liturgisch";
+  text-decoration:none;
+}
