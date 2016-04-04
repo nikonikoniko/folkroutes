@@ -16,10 +16,6 @@ class JetsamAddForm(ModelForm):
 
 class FloatsamEditForm(ModelForm):
   form_title="Edit Floatsam"
-  story=BleachField(allowed_tags=[
-        'p', 'b', 'i', 'u', 'em', 'strong', 'a',
-        'img','h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
-        allowed_styles=[],allowed_attributes=['href', 'title'])
   #form_url_name = "edit_floatsam"
   class Meta:
     exclude = ['slug','coven','geom']

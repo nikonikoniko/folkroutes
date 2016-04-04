@@ -42,7 +42,6 @@ INSTALLED_APPS = (
     'leaflet',
     'constellation',
     'django_summernote',
-    'django_bleach',
 )
 
 MIDDLEWARE_CLASSES = (
