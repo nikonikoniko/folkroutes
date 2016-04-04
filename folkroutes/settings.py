@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'leaflet',
     'constellation',
     'django_summernote',
+    'django_bleach',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -186,6 +187,10 @@ SUMMERNOTE_CONFIG = {
     #     static_url('django_summernote/django_summernote_inplace.css'),
     # ),
 }
+
+
+
+
 
 
 from folkroutes.local_settings import *

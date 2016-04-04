@@ -6,3 +6,4 @@ django-stdimage
 django-autoslug
 psycopg2
 django-summernote
+django-bleach

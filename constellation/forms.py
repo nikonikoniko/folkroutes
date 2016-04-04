@@ -1,6 +1,7 @@
 from django.forms import ModelForm
 from .models import Jetsam, Floatsam, Constellation
 from django_summernote.widgets import SummernoteWidget, SummernoteInplaceWidget
+from django_bleach.forms import BleachField
 
 class JetsamAddForm(ModelForm):
   form_title="Add Jetsam"
@@ -15,6 +16,10 @@ class JetsamAddForm(ModelForm):
 
 class FloatsamEditForm(ModelForm):
   form_title="Edit Floatsam"
+  story=BleachField(allowed_tags=[
+        'p', 'b', 'i', 'u', 'em', 'strong', 'a',
+        'img','h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
+        allowed_styles=[],allowed_attributes=['href', 'title'])
   #form_url_name = "edit_floatsam"
   class Meta:
     exclude = ['slug','coven','geom']
