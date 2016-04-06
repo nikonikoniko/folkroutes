@@ -204,7 +204,6 @@ def add_floatsam(request):
     form = ConstellationAddForm(request.POST)
     if form.is_valid():
       newfloat = Floatsam(name=form.cleaned_data["name"])
-      newfloat.save()
       newconst = form.save(commit=False)
       if request.FILES.get("vanity_image"):
         newconst.vanity_image = request.FILES["vanity_image"]
