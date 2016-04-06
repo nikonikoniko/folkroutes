@@ -168,13 +168,21 @@ var drawGraph = function(graph) {
          .enter()
          .append('g')
          .classed('gnode', true)
+         .on('click', function(d){
+            var nodeSelection = d3.select(this).style({opacity:'.9'});
+            nodeSelection.select("text").style({opacity:'.9'});
+          })
          .on('mouseover', function(d){
             var nodeSelection = d3.select(this).style({opacity:'0.8'});
             nodeSelection.select("text").style({opacity:'1.0'});
           })
          .on('mouseout', function(d){
+
             var nodeSelection = d3.select(this).style({opacity:'1.0'});
-            nodeSelection.select("text").style({opacity:'0.1'});
+            console.log(nodeSelection.select("text").style("opacity"));
+            if (nodeSelection.select("text").style("opacity")!="0.9"){
+              nodeSelection.select("text").style({opacity:'0.2'});
+            }
           });
 
 
@@ -195,11 +203,13 @@ var drawGraph = function(graph) {
           .text(function(d) { return d.name; })
           .style('fill', 'white')
           .style("font-size", "6px")
-          .style({opacity:'0.1'})
+          .style({opacity:'0.2'})
           .on("click",function(d){
             ajax_link_clicked(d.url);
 
-            scale = 2;
+            scale = 3;
+
+            d3.select(this).style({opacity:"1"});
 
 
             tx= width/2+ -scale*d.x;
@@ -210,10 +220,10 @@ var drawGraph = function(graph) {
             spincenter_y = d.y;
 
 
-          zoomListener.scale(scale).translate([tx,ty]);
+            zoomListener.scale(scale).translate([tx,ty]);
 
-          var T = momsvg.transition().duration(20)
-          zoomListener.event(T);
+            var T = momsvg.transition().duration(20)
+            zoomListener.event(T);
           })
           .style("cursor","pointer");
 
@@ -320,6 +330,7 @@ $.getJSON("/floatsam/json/links", function(links) {
 
   function ajax_link_clicked(url){
     console.log("clocle" + url);
+
 
     $.getJSON(url, function(data) {
       console.log(data);
