@@ -170,6 +170,8 @@ var drawGraph = function(graph) {
          .classed('gnode', true)
          .on('click', function(d){
             var nodeSelection = d3.select(this).style({opacity:'.9'});
+            d3.selectAll("text").style({opacity:'.2'})
+
             nodeSelection.select("text").style({opacity:'.9'});
           })
          .on('mouseover', function(d){
@@ -177,7 +179,6 @@ var drawGraph = function(graph) {
             nodeSelection.select("text").style({opacity:'1.0'});
           })
          .on('mouseout', function(d){
-
             var nodeSelection = d3.select(this).style({opacity:'1.0'});
             console.log(nodeSelection.select("text").style("opacity"));
             if (nodeSelection.select("text").style("opacity")!="0.9"){
