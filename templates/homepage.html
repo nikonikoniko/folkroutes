@@ -296,11 +296,24 @@ var drawGraph = function(graph) {
 
 $.getJSON("/floatsam/json/links", function(links) {
   $.getJSON("/floatsam/json/floatsam", function(nids) {
+      console.log(links);
+      console.log(nids);
 
+      var edges = [];
+
+      links.forEach(function(e) {
+          // Get the source and target nodes
+          var sourceNode = nids.filter(function(n) { return n.num === e.source; })[0],
+              targetNode = nids.filter(function(n) { return n.num === e.target; })[0];
+
+          // Add the edge to the array
+          edges.push({source: sourceNode, target: targetNode});
+      });
 
       var graph = {
+
+        links: edges,
         nodes: nids,
-        links: links
       };
 
       drawGraph(graph);

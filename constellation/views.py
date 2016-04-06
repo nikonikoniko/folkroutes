@@ -68,6 +68,7 @@ def links_json(request):
 
   for sam in floatsam:
     sam.peers = sam.coven.all()
+    print (sam.peers)
     if hasattr(sam, "constellation"):
       sam.charge = -300
     else:
