@@ -89,6 +89,10 @@ class Floatsam(Nameable, Imageable):
   geom          = PointField(null = True, blank = True)
 
   @property
+  def size(self):
+      return len(self.coven.all())
+
+  @property
   def json(self):
       return {
         "floatsam_id":self.floatsam_id,
@@ -98,6 +102,7 @@ class Floatsam(Nameable, Imageable):
         "website":self.website,
         "image":self.imageurl,
         "slug":self.slug,
+
       }
 
 

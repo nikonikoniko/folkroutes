@@ -88,7 +88,7 @@ def links_json(request):
 
 def floatsam_json(request):
   floatsam = Floatsam.objects.all()
-  floatsam_list=[{"num":0,"name":"FolkRoutes","charge":-200},]
+  floatsam_list=[{"num":0,"name":"FolkRoutes","charge":-200,"size":1},]
   for item in floatsam:
     if hasattr(item, "constellation"):
       item.charge = -300
@@ -100,6 +100,7 @@ def floatsam_json(request):
             "name":item.name,
             "url":"/floatsam/json/"+item.slug,
             "charge":item.charge,
+            "size":item.size,
       })
   return JsonResponse(floatsam_list, safe=False)
 
