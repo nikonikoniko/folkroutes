@@ -10,6 +10,9 @@ from leaflet.admin import LeafletGeoAdmin
 class ConstellationAdmin(admin.ModelAdmin):
   pass
 
+class FloatsamAdmin(admin.ModelAdmin):
+  pass
+
 
 class JetsamAdmin(admin.ModelAdmin):
   pass
@@ -44,3 +47,4 @@ admin.site.register(Star, StarAdmin)
 admin.site.register(Constellation, ConstellationAdmin)
 admin.site.register(Jetsam, JetsamAdmin)
 admin.site.register(ConnectionRequest, ConnectionRequestAdmin)
+admin.site.register(Floatsam, FloatsamAdmin)
